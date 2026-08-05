@@ -75,9 +75,6 @@
     .status-dot { width: 10px; height: 10px; background: var(--accent-green); border-radius: 50%; box-shadow: 0 0 8px var(--accent-green); }
     .header-actions { display: flex; align-items: center; gap: 10px; }
 
-    .creator-flag { font-size: 0.6rem; padding: 3px 8px; border-radius: 20px; border: 1px solid var(--secondary-neon); color: var(--secondary-neon); display: none; letter-spacing: 1px; }
-    body.creator-mode .creator-flag { display: inline-block; box-shadow: 0 0 10px rgba(255,0,85,0.4); }
-
     .ps-controller-btn {
       display: flex; align-items: center; gap: 8px;
       background: #0b0e1b; padding: 6px 14px; border-radius: 20px;
@@ -101,31 +98,7 @@
     .drawer-title { color: var(--primary-neon); font-size: 1.1rem; }
     .drawer-close-btn { background: transparent; border: none; color: var(--secondary-neon); font-size: 1.5rem; cursor: pointer; font-weight: bold; }
     .drawer-menu-list { display: flex; flex-direction: column; gap: 12px; margin-top: 6px; }
-      .drawer-section-label { font-size: 0.62rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-top: 6px; }
-      .console-logos-list { display: flex; flex-direction: column; gap: 8px; }
-      .console-logos-empty { font-size: 0.72rem; color: var(--text-dim); font-style: italic; margin: 0; }
-      .console-logo-row { display: flex; align-items: center; gap: 10px; padding: 8px; border-radius: 6px; background: rgba(0,240,255,0.05); border: 1px solid var(--cl-color, #1c2742); }
-      .console-logo-thumb { width: 46px; height: 34px; flex: 0 0 auto; border-radius: 4px; display: flex; align-items: center; justify-content: center; background: var(--cl-bg, rgba(0,240,255,0.12)); border: 1px solid var(--cl-color, #00f0ff); box-shadow: 0 0 6px var(--cl-color, #00f0ff), inset 0 0 5px var(--cl-color, #00f0ff); overflow: hidden; }
-      .console-logo-thumb img { max-width: 100%; max-height: 100%; object-fit: contain; }
-      .console-logo-thumb .placeholder { font-size: 8px; font-weight: 800; letter-spacing: 0.5px; color: var(--cl-color, #00f0ff); text-align: center; padding: 0 2px; }
-      .console-logo-meta { flex: 1 1 auto; min-width: 0; }
-      .console-logo-name { font-size: 0.74rem; font-weight: 700; color: var(--text-light); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-      .console-logo-status { font-size: 0.6rem; color: var(--text-dim); }
-      .console-logo-actions { display: flex; gap: 6px; flex: 0 0 auto; }
-      .console-logo-btn { background: transparent; border: 1px solid var(--cl-color, #00f0ff); color: var(--cl-color, #00f0ff); font-size: 0.62rem; font-weight: 700; padding: 5px 8px; border-radius: 5px; cursor: pointer; transition: all 0.2s ease; }
-      .console-logo-btn:hover { background: var(--cl-color, #00f0ff); color: #05070f; }
-      .console-logo-btn.del { border-color: var(--secondary-neon); color: var(--secondary-neon); }
-      .console-logo-btn.del:hover { background: var(--secondary-neon); color: #05070f; }
-
-    /* Toggle switch */
-    .toggle-row { display: flex; align-items: center; justify-content: space-between; background: #0b0e1b; border: 1px solid #1c2742; border-radius: 6px; padding: 10px 12px; }
-    .toggle-row span { font-size: 0.75rem; color: var(--text-main); }
-    .switch { position: relative; width: 46px; height: 24px; flex: 0 0 auto; }
-    .switch input { display: none; }
-    .slider { position: absolute; inset: 0; background: #253356; border-radius: 20px; transition: 0.3s; cursor: pointer; }
-    .slider::before { content: ''; position: absolute; height: 18px; width: 18px; left: 3px; top: 3px; background: #fff; border-radius: 50%; transition: 0.3s; }
-    .switch input:checked + .slider { background: var(--secondary-neon); box-shadow: 0 0 10px var(--secondary-neon); }
-    .switch input:checked + .slider::before { transform: translateX(22px); }
+    .drawer-section-label { font-size: 0.62rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-top: 6px; }
 
     .multimedia-placeholder { background: #0b0e1b; border: 1px dashed #26406b; border-radius: 6px; padding: 18px; text-align: center; color: var(--text-dim); font-size: 0.7rem; line-height: 1.6; }
 
@@ -171,11 +144,7 @@
     .cover-wrapper { display: flex; flex-direction: column; align-items: center; gap: 12px; width: 170px; }
 
     .cover-shell { position: relative; width: 100%; }
-    .boxart-container { position: relative; display: flex; align-items: center; justify-content: center; background: #000; border: 2px solid var(--primary-neon); border-radius: 6px; padding: 4px; box-shadow: 0 0 12px rgba(0,240,255,0.2); width: 100%; height: 230px; cursor: pointer; overflow: hidden; transition: all 0.2s ease; }
-    .boxart-container:hover { border-color: #fff; box-shadow: 0 0 18px var(--primary-neon); }
-    .boxart-container.locked { border-color: var(--secondary-neon); box-shadow: 0 0 12px rgba(255,0,85,0.4); cursor: default; }
-    .lock-badge { position: absolute; top: 6px; right: 6px; background: rgba(0,0,0,0.85); color: var(--secondary-neon); border: 1px solid var(--secondary-neon); font-size: 0.6rem; padding: 3px 6px; border-radius: 4px; display: none; z-index: 10; font-weight: bold; }
-    .boxart-container.locked .lock-badge { display: block; }
+    .boxart-container { position: relative; display: flex; align-items: center; justify-content: center; background: #000; border: 2px solid var(--primary-neon); border-radius: 6px; padding: 4px; box-shadow: 0 0 12px rgba(0,240,255,0.2); width: 100%; height: 230px; overflow: hidden; transition: all 0.2s ease; }
     .boxart-container img { max-width: 100%; max-height: 100%; width: auto; height: auto; display: block; border-radius: 4px; object-fit: contain; }
 
     /* Heart favorite */
@@ -185,13 +154,7 @@
     @keyframes heartPop { 0% { transform: scale(0.6);} 60% { transform: scale(1.25);} 100% { transform: scale(1);} }
 
     /* CONTENEDOR DE LOGO DE CONSOLA (SVG NATIVO) */
-      .under-cover-icons { position: relative; width: 100%; display: flex; justify-content: center; align-items: center; padding: 12px 10px; border-radius: 6px; min-height: 64px; background-color: var(--console-bg, rgba(0,240,255,0.15)); border: 2px solid var(--console-color, #00f0ff); box-shadow: 0 0 15px var(--console-color, #00f0ff), inset 0 0 10px var(--console-color, #00f0ff); transition: all 0.4s ease-in-out; cursor: pointer; overflow: hidden; }
-      .under-cover-icons:hover { box-shadow: 0 0 22px var(--console-color, #00f0ff), inset 0 0 14px var(--console-color, #00f0ff); }
-      .under-cover-icons #console-logo-img { display: none; max-width: 100%; max-height: 84px; object-fit: contain; filter: drop-shadow(0 0 6px var(--console-color, #00f0ff)); }
-      .under-cover-icons.has-custom-logo #icon-console-svg { display: none; }
-      .under-cover-icons.has-custom-logo #console-logo-img { display: block; }
-      .logo-upload-hint { position: absolute; bottom: 4px; right: 6px; font-size: 9px; font-weight: 700; letter-spacing: 1px; color: var(--console-color, #00f0ff); background: rgba(0,0,0,0.55); padding: 2px 6px; border-radius: 4px; opacity: 0; transition: opacity 0.25s ease; pointer-events: none; }
-      .under-cover-icons:hover .logo-upload-hint, .under-cover-icons:focus-visible .logo-upload-hint { opacity: 1; }
+    .under-cover-icons { position: relative; width: 100%; display: flex; justify-content: center; align-items: center; padding: 12px 10px; border-radius: 6px; min-height: 64px; background-color: var(--console-bg, rgba(0,240,255,0.15)); border: 2px solid var(--console-color, #00f0ff); box-shadow: 0 0 15px var(--console-color, #00f0ff), inset 0 0 10px var(--console-color, #00f0ff); transition: all 0.4s ease-in-out; overflow: hidden; }
     #icon-console-svg { width: 100%; display: flex; justify-content: center; align-items: center; }
     #icon-console-svg svg { width: 100%; height: 44px; filter: drop-shadow(0 0 6px var(--console-color, #00f0ff)); }
 
@@ -217,7 +180,6 @@
     .card-3d-wrapper.flipped .card-3d-inner { transform: rotateY(180deg); }
     .card-face { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 8px; overflow: hidden; border: 2px solid #1c2742; }
     .card-front { background: #0b0e1b; display: flex; align-items: center; justify-content: center; }
-    /* UPSCALE / crisp pixel rendering for low-res badges */
     .card-front img { width: 100% !important; height: 100% !important; object-fit: cover !important; display: block; image-rendering: -webkit-optimize-contrast; image-rendering: pixelated; image-rendering: crisp-edges; transform: scale(1.02); }
     .card-3d-wrapper.unlocked .card-front { border-color: var(--theme-color); box-shadow: 0 0 10px var(--theme-color); }
     .card-3d-wrapper.locked .card-front { opacity: 0.5; filter: grayscale(100%); }
@@ -226,20 +188,10 @@
     .card-back h4 { font-size: 0.7rem; color: var(--theme-color); margin-bottom: 4px; line-height: 1.1; }
     .card-back p { font-size: 0.6rem; color: var(--text-main); line-height: 1.25; overflow-y: auto; max-height: 60px; word-break: break-word; }
     .card-back .points-badge { font-size: 0.55rem; background: rgba(0,0,0,0.6); padding: 2px 6px; border-radius: 4px; border: 1px solid var(--theme-color); color: var(--theme-color); }
-    /* Custom creator back image */
-    .card-back.custom { padding: 0; background: #000; }
-    .card-back.custom img { width: 100%; height: 100%; object-fit: cover; image-rendering: auto; }
-    .card-back .custom-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); padding: 6px 8px; text-align: left; }
-    .card-back .custom-overlay h4 { margin: 0; }
 
     .achievement-num-progress { margin-top: 4px; padding-top: 4px; border-top: 1px dashed rgba(0,240,255,0.3); font-size: 0.62rem; font-weight: bold; color: var(--primary-neon); display: flex; flex-direction: column; align-items: center; gap: 2px; }
     .num-bar-bg { width: 100%; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; }
     .num-bar-fill { height: 100%; background: var(--primary-neon); width: 0%; }
-
-    /* Creator edit button on card */
-    .card-edit-btn { position: absolute; top: 5px; right: 5px; z-index: 30; width: 26px; height: 26px; border-radius: 6px; background: rgba(0,0,0,0.8); border: 1px solid var(--secondary-neon); color: var(--secondary-neon); font-size: 0.75rem; display: none; align-items: center; justify-content: center; cursor: pointer; }
-    body.creator-mode .card-edit-btn { display: flex; }
-    .card-edit-btn:hover { background: var(--secondary-neon); color: #fff; }
 
     /* STATS OVERLAY */
     #screen-stats { position: fixed; inset: 0; background: var(--bg-color); z-index: 150; overflow-y: auto; padding: 20px; display: none; }
@@ -270,10 +222,6 @@
     .cyber-loader { position: fixed; inset:0; background: rgba(7,9,19,0.9); z-index: 300; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 15px; color: var(--primary-neon); }
     .spinner { width: 35px; height: 35px; border: 3px solid transparent; border-top-color: var(--primary-neon); border-bottom-color: var(--secondary-neon); border-radius: 50%; animation: spin 1s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* Toast / install */
-    #install-btn { display: none; }
-    body.can-install #install-btn { display: flex; }
   </style>
 </head>
 <body>
@@ -306,7 +254,6 @@
       <div class="user-profile">
         <span class="status-dot"></span>
         <span id="user-display">USUARIO</span>
-        <span class="creator-flag">MODO CREADOR</span>
       </div>
 
       <div class="header-actions">
@@ -337,20 +284,15 @@
           <div class="cover-wrapper">
             <div class="cover-shell">
               <button class="fav-heart" id="fav-heart" title="Marcar como favorito" aria-label="Favorito">&#9829;</button>
-              <div class="boxart-container" id="boxart-clickable" title="Clic para administrar portada personalizada">
-                <span class="lock-badge">&#128274; FIJA</span>
+              <div class="boxart-container" id="boxart-clickable">
                 <img id="game-boxart" src="" alt="Carátula del juego" crossorigin="anonymous" />
               </div>
             </div>
-            <input type="file" id="file-input" accept="image/*" style="display:none;" />
 
-            <!-- CONTENEDOR DEL LOGO DE LA CONSOLA (imagen personalizada o SVG nativo) -->
-            <div class="under-cover-icons" id="neon-container" title="Clic para subir el logo de esta consola" role="button" tabindex="0">
+            <!-- CONTENEDOR DEL LOGO DE LA CONSOLA (SVG nativo) -->
+            <div class="under-cover-icons" id="neon-container">
               <div id="icon-console-svg"></div>
-              <img id="console-logo-img" alt="Logo de la consola" crossorigin="anonymous" />
-              <span class="logo-upload-hint" id="logo-upload-hint">&#128247; Subir logo</span>
             </div>
-            <input type="file" id="console-logo-input" accept="image/*" style="display:none;" />
           </div>
 
           <div class="game-details">
@@ -377,7 +319,7 @@
               </div>
             </div>
 
-            <!-- SECCIÓN DE HISTORIA (nativa, sin mencionar la fuente) -->
+            <!-- SECCIÓN DE HISTORIA -->
             <div class="game-description-box">
               <strong>&#128214; HISTORIA / ARGUMENTO</strong>
               <div id="game-description-text">Selecciona un juego para ver su historia...</div>
@@ -426,12 +368,6 @@
       <button id="btn-stats" class="btn-cyber-sec">&#128202; TU PROGRESO COMPLETO</button>
       <button id="btn-fav-filter" class="btn-cyber-sec" style="border-color: var(--secondary-neon); color: var(--secondary-neon);">&#10084; JUEGOS FAVORITOS</button>
 
-      <div class="drawer-section-label">Modo de vista</div>
-      <div class="toggle-row">
-        <span>&#128295; Modo Creador (reversos de cartas)</span>
-        <label class="switch"><input type="checkbox" id="toggle-creator"><span class="slider"></span></label>
-      </div>
-
       <div class="drawer-section-label">Logros Multimedia</div>
       <div class="multimedia-placeholder">
         &#127909; <strong>Logros Multimedia</strong><br>
@@ -439,19 +375,7 @@
         <em>(Próximamente)</em>
       </div>
 
-      <div class="drawer-section-label">Gestión de Logos de Consolas</div>
-      <div id="console-logos-list" class="console-logos-list">
-        <p class="console-logos-empty">Carga tu biblioteca para gestionar los logos de tus consolas.</p>
-      </div>
-      <input type="file" id="drawer-logo-input" accept="image/*" style="display:none;" />
-
-      <div class="drawer-section-label">Carátulas</div>
-      <button id="btn-export-covers" class="btn-cyber-sec">&#128190; EXPORTAR CARÁTULAS</button>
-      <button id="btn-import-covers" class="btn-cyber-sec">&#128193; IMPORTAR CARÁTULAS</button>
-      <input type="file" id="backup-file-input" accept=".json" style="display:none;" />
-
       <div class="drawer-section-label">Aplicación</div>
-      <button id="install-btn" class="btn-cyber-sec">&#128241; INSTALAR APP</button>
       <button id="btn-logout" class="btn-cyber-sec" style="border-color: var(--secondary-neon); color: var(--secondary-neon);">&#128682; CERRAR SESIÓN</button>
     </div>
   </aside>
@@ -469,20 +393,17 @@
 
 let userGlobal = '';
 let apiKeyGlobal = '';
-let historialJuegos = [];      // lista normalizada y completa
+let historialJuegos = [];
 let todosLosLogros = [];
 let juegoActualID = null;
 let juegoActualConsola = '';
-let coverBloqueada = false;
 let favoritos = new Set(JSON.parse(localStorage.getItem('ra_favoritos') || '[]'));
-let creatorMode = localStorage.getItem('ra_creator_mode') === '1';
 let userSummary = null;
 
 /* Estado de navegación por marcas/consolas */
 let currentBrand = 'ALL';
 let currentConsoleKey = null;
 let navLevel = 1; // 1 = consolas, 2 = juegos
-let editingAchId = null;
 
 /* =========================================================
    1) LOGOS SVG NATIVOS (CONSOLAS + MARCAS)
@@ -513,7 +434,7 @@ function brandLogo(brand) {
     case 'SEGA':
       return svgWrap('<text x="130" y="44" text-anchor="middle" font-family="Arial Black, Impact, sans-serif" font-style="italic" font-weight="900" font-size="40" letter-spacing="2" fill="#1e73ff">SEGA</text>');
     case 'ATARI':
-      return svgWrap('<g fill="#e4002b"><path d="M118 14 L128 14 L128 58 L118 58 Z"/><path d="M112 14 C 96 22, 90 40, 90 58 L100 58 C100 42, 104 26, 112 20 Z"/><path d="M134 14 C 150 22, 156 40, 156 58 L146 58 C146 42, 142 26, 134 20 Z"/></g><text x="123" y="62" text-anchor="middle" font-family="Arial, sans-serif" font-weight="800" font-size="10" fill="#e4002b" opacity="0" >ATARI</text>');
+      return svgWrap('<g fill="#e4002b"><path d="M118 14 L128 14 L128 58 L118 58 Z"/><path d="M112 14 C 96 22, 90 40, 90 58 L100 58 C100 42, 104 26, 112 20 Z"/><path d="M134 14 C 150 22, 156 40, 156 58 L146 58 C146 42, 142 26, 134 20 Z"/></g>');
     case 'SNK':
       return svgWrap('<text x="130" y="44" text-anchor="middle" font-family="Arial Black, Impact, sans-serif" font-weight="900" font-size="40" letter-spacing="3" fill="#ffb300">SNK</text>');
     case 'MICROSOFT':
@@ -616,154 +537,29 @@ function hexToRgba(hex, a) {
   return 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')';
 }
 
-/* Logos de consola personalizados, guardados por CONSOLA (no por juego) */
-var logoConsolaKeyActual = null;
-function logoConsolaStorageKey(consoleKey) { return 'logo_consola_' + consoleKey; }
-
-/* Render del logo de consola en el contenedor neón inferior */
 function actualizarLogoVectorialConsola(consoleName) {
   var info = getConsoleInfo(consoleName);
   var container = document.getElementById('neon-container');
   var svgHolder = document.getElementById('icon-console-svg');
-  var imgEl = document.getElementById('console-logo-img');
-
-  // Guardamos la consola activa para vincular la imagen subida a la plataforma
-  logoConsolaKeyActual = info.key;
 
   container.style.setProperty('--console-color', info.color);
   container.style.setProperty('--console-bg', hexToRgba(info.color, 0.18));
   svgHolder.innerHTML = wordmark(info.label, info.color);
-  container.title = 'Clic para subir/cambiar el logo de ' + info.label;
 
-  // Si esta consola ya tiene un logo personalizado guardado, lo cargamos para
-  // TODOS los juegos de la misma plataforma; si no, dejamos el SVG por defecto.
-  var saved = null;
-  try { saved = localStorage.getItem(logoConsolaStorageKey(info.key)); } catch (e) {}
-  if (saved) {
-    imgEl.src = saved;
-    container.classList.add('has-custom-logo');
-  } else {
-    imgEl.removeAttribute('src');
-    container.classList.remove('has-custom-logo');
-  }
-
-  // Tema global de la vista según la consola
   document.documentElement.style.setProperty('--theme-color', info.color);
 }
 
-/* Abrir selector de archivo al hacer clic en el marco neón */
-function abrirSelectorLogoConsola() {
-  if (!logoConsolaKeyActual) { alert('Selecciona primero un juego para identificar la consola.'); return; }
-  document.getElementById('console-logo-input').click();
+/* Loader */
+function showLoader(show, text) {
+  var l = document.getElementById('loading');
+  if (text) document.getElementById('loading-text').innerText = text;
+  l.style.display = show ? 'flex' : 'none';
 }
-document.getElementById('neon-container').addEventListener('click', abrirSelectorLogoConsola);
-document.getElementById('neon-container').addEventListener('keydown', function (e) {
-  if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrirSelectorLogoConsola(); }
-});
-/* Guarda (o elimina con dataUrl null) el logo de una consola y refresca la UI */
-function guardarLogoConsola(consoleKey, dataUrl) {
-  try {
-    if (dataUrl) localStorage.setItem(logoConsolaStorageKey(consoleKey), dataUrl);
-    else localStorage.removeItem(logoConsolaStorageKey(consoleKey));
-  } catch (err) {
-    alert('No se pudo guardar el logo (almacenamiento lleno). Prueba con una imagen más pequeña.');
-    return false;
-  }
-  // Si la consola editada es la del juego mostrado ahora, refresca el contenedor neón
-  if (consoleKey === logoConsolaKeyActual) {
-    var imgEl = document.getElementById('console-logo-img');
-    var container = document.getElementById('neon-container');
-    if (dataUrl) { imgEl.src = dataUrl; container.classList.add('has-custom-logo'); }
-    else { imgEl.removeAttribute('src'); container.classList.remove('has-custom-logo'); }
-  }
-  renderGestorLogos();
-  return true;
-}
-
-function leerImagenComo(file, cb) {
-  var reader = new FileReader();
-  reader.onload = function (ev) { cb(ev.target.result); };
-  reader.readAsDataURL(file);
-}
-
-/* Subida desde el contenedor neón inferior */
-document.getElementById('console-logo-input').addEventListener('change', function (e) {
-  var file = e.target.files && e.target.files[0];
-  if (!file || !logoConsolaKeyActual) return;
-  leerImagenComo(file, function (dataUrl) { guardarLogoConsola(logoConsolaKeyActual, dataUrl); });
-  e.target.value = '';
-});
-
-/* =========================================================
-   GESTOR DE LOGOS EN EL DRAWER DE CONFIGURACIÓN
-   ========================================================= */
-var logoEditKey = null; // consola en edición desde el gestor del drawer
-
-function renderGestorLogos() {
-  var cont = document.getElementById('console-logos-list');
-  if (!cont) return;
-  if (!historialJuegos || historialJuegos.length === 0) {
-    cont.innerHTML = '<p class="console-logos-empty">Carga tu biblioteca para gestionar los logos de tus consolas.</p>';
-    return;
-  }
-  // Consolas únicas detectadas en la cuenta (clave estable de getConsoleInfo)
-  var vistos = {};
-  var consolas = [];
-  historialJuegos.forEach(function (j) {
-    var info = getConsoleInfo(j.ConsoleName);
-    if (!vistos[info.key]) { vistos[info.key] = true; consolas.push(info); }
-  });
-  consolas.sort(function (a, b) { return a.label.localeCompare(b.label); });
-
-  cont.innerHTML = consolas.map(function (info) {
-    var saved = null;
-    try { saved = localStorage.getItem(logoConsolaStorageKey(info.key)); } catch (e) {}
-    var thumb = saved
-      ? '<img src="' + saved + '" alt="Logo ' + esc(info.label) + '">'
-      : '<span class="placeholder">' + esc(info.label.substring(0, 6)) + '</span>';
-    var status = saved ? 'Logo personalizado' : 'Sin logo (por defecto)';
-    var delBtn = saved ? '<button class="console-logo-btn del" data-del="' + esc(info.key) + '">Quitar</button>' : '';
-    return '<div class="console-logo-row" style="--cl-color:' + info.color + ';--cl-bg:' + hexToRgba(info.color, 0.14) + ';">' +
-             '<div class="console-logo-thumb">' + thumb + '</div>' +
-             '<div class="console-logo-meta">' +
-               '<div class="console-logo-name">' + esc(info.label) + '</div>' +
-               '<div class="console-logo-status">' + status + '</div>' +
-             '</div>' +
-             '<div class="console-logo-actions">' +
-               '<button class="console-logo-btn" data-up="' + esc(info.key) + '">' + (saved ? 'Cambiar' : 'Subir') + '</button>' +
-               delBtn +
-             '</div>' +
-           '</div>';
-  }).join('');
-
-  cont.querySelectorAll('[data-up]').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      logoEditKey = btn.getAttribute('data-up');
-      document.getElementById('drawer-logo-input').click();
-    });
-  });
-  cont.querySelectorAll('[data-del]').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      guardarLogoConsola(btn.getAttribute('data-del'), null);
-    });
-  });
-}
-
-document.getElementById('drawer-logo-input').addEventListener('change', function (e) {
-  var file = e.target.files && e.target.files[0];
-  if (!file || !logoEditKey) return;
-  leerImagenComo(file, function (dataUrl) { guardarLogoConsola(logoEditKey, dataUrl); });
-  logoEditKey = null;
-  e.target.value = '';
-});
 
 /* =========================================================
    ARRANQUE / SESIÓN
    ========================================================= */
 document.addEventListener('DOMContentLoaded', function () {
-  document.getElementById('toggle-creator').checked = creatorMode;
-  if (creatorMode) document.body.classList.add('creator-mode');
-
   var savedUser = localStorage.getItem('ra_user');
   var savedKey = localStorage.getItem('ra_key');
   if (savedUser && savedKey) {
@@ -802,7 +598,6 @@ var overlayEl = document.getElementById('drawer-overlay');
 function toggleDrawer(open) {
   drawerEl.classList.toggle('active', open);
   overlayEl.classList.toggle('active', open);
-  if (open) renderGestorLogos();
 }
 document.getElementById('btn-open-drawer').addEventListener('click', function(){ toggleDrawer(true); });
 document.getElementById('btn-close-drawer').addEventListener('click', function(){ toggleDrawer(false); });
@@ -816,16 +611,8 @@ document.getElementById('btn-logout').addEventListener('click', function () {
   document.getElementById('screen-login').classList.add('active');
 });
 
-/* Modo creador */
-document.getElementById('toggle-creator').addEventListener('change', function (e) {
-  creatorMode = e.target.checked;
-  localStorage.setItem('ra_creator_mode', creatorMode ? '1' : '0');
-  document.body.classList.toggle('creator-mode', creatorMode);
-});
-
 /* =========================================================
-   4) CARGA ILIMITADA Y COMPLETA DEL HISTORIAL
-   (combina RecentlyPlayed paginado + CompletedGames)
+   CARGA ILIMITADA Y COMPLETA DEL HISTORIAL
    ========================================================= */
 function apiUrl(endpoint, params) {
   var base = 'https://retroachievements.org/API/' + endpoint + '?z=' + encodeURIComponent(userGlobal) + '&y=' + encodeURIComponent(apiKeyGlobal);
@@ -849,14 +636,13 @@ function normalizarJuego(j) {
 }
 
 async function cargarHistorialCompleto() {
-  var mapa = {}; // GameID -> juego normalizado
+  var mapa = {};
 
   function fusionar(j) {
     var n = normalizarJuego(j);
     if (!n.GameID) return;
     var prev = mapa[n.GameID];
     if (!prev) { mapa[n.GameID] = n; return; }
-    // conservar la información más rica
     prev.possible = Math.max(prev.possible, n.possible);
     prev.earned = Math.max(prev.earned, n.earned);
     if (!prev.ConsoleName && n.ConsoleName) prev.ConsoleName = n.ConsoleName;
@@ -865,16 +651,14 @@ async function cargarHistorialCompleto() {
   }
 
   try {
-    // A) Juegos completados (sin límite práctico)
     try {
       var resC = await fetch(apiUrl('API_GetUserCompletedGames.php', { u: userGlobal }));
       if (resC.ok) {
         var dataC = await resC.json();
         if (Array.isArray(dataC)) dataC.forEach(fusionar);
       }
-    } catch (e) { console.log('[v0] completedGames error', e); }
+    } catch (e) { console.log('completedGames error', e); }
 
-    // B) Recientemente jugados — PAGINACIÓN COMPLETA sin tope
     var offset = 0, count = 500, guard = 0;
     while (guard < 60) {
       guard++;
@@ -887,14 +671,12 @@ async function cargarHistorialCompleto() {
       offset += count;
     }
 
-    // C) Resumen del usuario (puntos totales)
     try {
       var resS = await fetch(apiUrl('API_GetUserSummary.php', { u: userGlobal, g: 0, a: 0 }));
       if (resS.ok) userSummary = await resS.json();
-    } catch (e) { console.log('[v0] summary error', e); }
+    } catch (e) { console.log('summary error', e); }
 
     historialJuegos = Object.keys(mapa).map(function (k) { return mapa[k]; });
-    // Ordenar por último jugado (desc), pero NADA se elimina
     historialJuegos.sort(function (a, b) {
       return (new Date(b.LastPlayed || 0)) - (new Date(a.LastPlayed || 0));
     });
@@ -917,7 +699,7 @@ async function cargarHistorialCompleto() {
 }
 
 /* =========================================================
-   5) NAVEGACIÓN POR MARCAS Y CONSOLAS (logos SVG)
+   NAVEGACIÓN POR MARCAS Y CONSOLAS
    ========================================================= */
 function marcasPresentes() {
   var set = {};
@@ -946,7 +728,6 @@ function renderBrandBar() {
     bar.appendChild(chip);
   });
 
-  // Chip de favoritos
   var favChip = document.createElement('div');
   favChip.className = 'brand-chip fav' + (currentBrand === 'FAV' ? ' active' : '');
   favChip.dataset.brand = 'FAV';
@@ -966,14 +747,12 @@ function selectBrand(brand) {
   else { renderConsoleLevel(); }
 }
 
-/* Primer nivel: logos de consolas dentro de la marca */
 function renderConsoleLevel() {
   var titleEl = document.getElementById('history-title');
   var cont = document.getElementById('history-content');
   titleEl.innerHTML = '&#128190; CONSOLAS' + (currentBrand !== 'ALL' ? ' · ' + BRAND_META[currentBrand].label.toUpperCase() : '');
 
-  // agrupar por consola (respetando marca)
-  var groups = {}; // key -> {info, count}
+  var groups = {};
   historialJuegos.forEach(function (j) {
     var info = getConsoleInfo(j.ConsoleName);
     if (currentBrand !== 'ALL' && info.brand !== currentBrand) return;
@@ -1003,7 +782,6 @@ function renderConsoleLevel() {
   });
 }
 
-/* Segundo nivel: lista de juegos de la consola */
 function selectConsole(key) {
   currentConsoleKey = key;
   navLevel = 2;
@@ -1024,7 +802,6 @@ function selectConsole(key) {
   attachGameItemHandlers(cont);
 }
 
-/* Nivel favoritos */
 function renderFavoritesLevel() {
   var cont = document.getElementById('history-content');
   document.getElementById('history-title').innerHTML = '&#10084; JUEGOS FAVORITOS';
@@ -1064,7 +841,6 @@ function attachGameItemHandlers(scope) {
   });
 }
 
-/* Botón favoritos del drawer */
 document.getElementById('btn-fav-filter').addEventListener('click', function () {
   toggleDrawer(false);
   selectBrand('FAV');
@@ -1074,7 +850,7 @@ document.getElementById('btn-fav-filter').addEventListener('click', function () 
 });
 
 /* =========================================================
-   3) SINOPSIS / HISTORIA (extrae la sección de argumento)
+   SINOPSIS / HISTORIA
    ========================================================= */
 function limpiarHTMLWiki(html) {
   var div = document.createElement('div');
@@ -1092,14 +868,12 @@ function limpiarHTMLWiki(html) {
 
 async function obtenerSeccionHistoria(lang, titulo) {
   var api = 'https://' + lang + '.wikipedia.org/w/api.php';
-  // 1) resolver el título correcto por búsqueda
   var srQ = titulo + (lang === 'es' ? ' videojuego' : ' video game');
   var sres = await fetch(api + '?action=query&list=search&srsearch=' + encodeURIComponent(srQ) + '&format=json&origin=*&srlimit=1');
   var sdata = await sres.json();
   if (!sdata.query || !sdata.query.search || !sdata.query.search.length) return null;
   var pageTitle = sdata.query.search[0].title;
 
-  // 2) listar secciones y buscar argumento/trama/historia
   var secRes = await fetch(api + '?action=parse&page=' + encodeURIComponent(pageTitle) + '&prop=sections&format=json&origin=*');
   var secData = await secRes.json();
   if (!secData.parse || !secData.parse.sections) return null;
@@ -1116,7 +890,6 @@ async function obtenerSeccionHistoria(lang, titulo) {
   }
   if (!chosen) return null;
 
-  // 3) obtener el HTML de esa sección
   var txtRes = await fetch(api + '?action=parse&page=' + encodeURIComponent(pageTitle) + '&section=' + chosen.index + '&prop=text&format=json&origin=*');
   var txtData = await txtRes.json();
   if (!txtData.parse || !txtData.parse.text) return null;
@@ -1129,13 +902,11 @@ async function buscarHistoria(tituloJuego) {
   descBox.innerText = 'Buscando la historia del juego...';
   var titulo = tituloJuego.replace(/\(.*?\)/g, '').replace(/~.*?~/g, '').replace(/\|.*$/,'').trim();
 
-  // Español primero
   try {
     var es = await obtenerSeccionHistoria('es', titulo);
     if (es) { descBox.innerText = es; return; }
-  } catch (e) { console.log('[v0] wiki es', e); }
+  } catch (e) { console.log('wiki es', e); }
 
-  // Inglés + traducción
   try {
     var en = await obtenerSeccionHistoria('en', titulo);
     if (en) {
@@ -1144,9 +915,8 @@ async function buscarHistoria(tituloJuego) {
       descBox.innerText = tr || en;
       return;
     }
-  } catch (e) { console.log('[v0] wiki en', e); }
+  } catch (e) { console.log('wiki en', e); }
 
-  // Fallback: resumen introductorio en español
   try {
     var r = await fetch('https://es.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(titulo));
     if (r.ok) {
@@ -1195,7 +965,11 @@ async function cargarDetallesJuego(gameId, consoleHint) {
 
     buscarHistoria(data.Title);
     actualizarFavHeart();
-    aplicarCaratula(gameId, data);
+
+    var boxArtImg = document.getElementById('game-boxart');
+    if (data.ImageBoxArt) boxArtImg.src = 'https://media.retroachievements.org' + data.ImageBoxArt;
+    else if (data.ImageIcon) boxArtImg.src = 'https://media.retroachievements.org' + data.ImageIcon;
+    else boxArtImg.src = '';
 
     var logrosMap = data.Achievements ? Object.values(data.Achievements) : [];
     todosLosLogros = logrosMap.map(function (l) {
@@ -1217,57 +991,7 @@ async function cargarDetallesJuego(gameId, consoleHint) {
 }
 
 /* =========================================================
-   2) CARÁTULAS + BLOQUEO PERMANENTE
-   ========================================================= */
-function aplicarCaratula(gameId, data) {
-  var customCover = localStorage.getItem('custom_cover_' + gameId);
-  var isLocked = localStorage.getItem('cover_locked_' + gameId) === '1';
-  var boxArtImg = document.getElementById('game-boxart');
-  var boxartContainer = document.getElementById('boxart-clickable');
-
-  if (customCover) {
-    boxArtImg.src = customCover;
-    coverBloqueada = isLocked;
-    boxartContainer.classList.toggle('locked', isLocked);
-  } else {
-    coverBloqueada = false;
-    boxartContainer.classList.remove('locked');
-    if (data && data.ImageBoxArt) boxArtImg.src = 'https://media.retroachievements.org' + data.ImageBoxArt;
-    else if (data && data.ImageIcon) boxArtImg.src = 'https://media.retroachievements.org' + data.ImageIcon;
-    else boxArtImg.src = '';
-  }
-  boxArtImg.style.opacity = '1';
-}
-
-document.getElementById('boxart-clickable').addEventListener('click', function () {
-  if (!juegoActualID) return;
-  if (coverBloqueada) {
-    alert('🔒 Esta carátula ha sido personalizada y quedó FIJA de forma permanente. No puede volver a cambiarse.');
-    return;
-  }
-  document.getElementById('file-input').click();
-});
-
-document.getElementById('file-input').addEventListener('change', function (e) {
-  var file = e.target.files[0];
-  if (file && juegoActualID) {
-    var reader = new FileReader();
-    reader.onload = function (ev) {
-      var base64 = ev.target.result;
-      document.getElementById('game-boxart').src = base64;
-      // Guardado permanente + bloqueo
-      localStorage.setItem('custom_cover_' + juegoActualID, base64);
-      localStorage.setItem('cover_locked_' + juegoActualID, '1');
-      coverBloqueada = true;
-      document.getElementById('boxart-clickable').classList.add('locked');
-    };
-    reader.readAsDataURL(file);
-  }
-  e.target.value = '';
-});
-
-/* =========================================================
-   6) FAVORITOS
+   FAVORITOS
    ========================================================= */
 function actualizarFavHeart() {
   var heart = document.getElementById('fav-heart');
@@ -1281,13 +1005,12 @@ document.getElementById('fav-heart').addEventListener('click', function (e) {
   if (favoritos.has(id)) favoritos.delete(id); else favoritos.add(id);
   localStorage.setItem('ra_favoritos', JSON.stringify([...favoritos]));
   actualizarFavHeart();
-  // refrescar navegación si aplica
   if (currentBrand === 'FAV') renderFavoritesLevel();
   else if (navLevel === 2 && currentConsoleKey) selectConsole(currentConsoleKey);
 });
 
 /* =========================================================
-   7) + 8) RENDER DE LOGROS (3D, upscale, reverso creador)
+   RENDER DE LOGROS (3D, Flip & Traducción)
    ========================================================= */
 function extraerProgresoNumerico(logro) {
   var regex = /(\d+)\s*\/\s*(\d+)/;
@@ -1320,34 +1043,22 @@ function renderizarLogros(lista) {
       progresoHTML = '<div class="achievement-num-progress"><span>PROGRESO: ' + progreso.actual + ' / ' + progreso.total + '</span><div class="num-bar-bg"><div class="num-bar-fill" style="width:' + pct + '%"></div></div></div>';
     }
 
-    // Reverso personalizado (modo creador)
-    var customBack = localStorage.getItem('cardback_' + juegoActualID + '_' + logro.ID);
-    var backHTML;
-    if (customBack) {
-      backHTML = '<div class="card-face card-back custom">' +
-                   '<img src="' + customBack + '" alt="Reverso personalizado">' +
-                   '<div class="custom-overlay"><h4 class="card-title">' + esc(logro.Title) + '</h4><span class="points-badge">&#11088; ' + (logro.Points||0) + ' PTS</span></div>' +
-                 '</div>';
-    } else {
-      backHTML = '<div class="card-face card-back">' +
-                   '<span class="points-badge">&#11088; ' + (logro.Points||0) + ' PTS</span>' +
-                   '<h4 class="card-title">' + esc(logro.Title) + '</h4>' +
-                   '<p class="card-desc">' + esc(logro.Description || '') + '</p>' +
-                   progresoHTML +
-                 '</div>';
-    }
+    var backHTML = '<div class="card-face card-back">' +
+                     '<span class="points-badge">&#11088; ' + (logro.Points||0) + ' PTS</span>' +
+                     '<h4 class="card-title">' + esc(logro.Title) + '</h4>' +
+                     '<p class="card-desc">' + esc(logro.Description || '') + '</p>' +
+                     progresoHTML +
+                   '</div>';
 
     wrapper.innerHTML =
-      '<button class="card-edit-btn" title="Asignar reverso personalizado">&#128295;</button>' +
       '<div class="card-3d-inner">' +
         '<div class="card-face card-front"><img src="' + badgeUrl + '" alt="Logro" crossorigin="anonymous"></div>' +
         backHTML +
       '</div>';
 
-    // Flip
     wrapper.addEventListener('click', function () {
       wrapper.classList.toggle('flipped');
-      if (wrapper.classList.contains('flipped') && !logro.translated && !customBack) {
+      if (wrapper.classList.contains('flipped') && !logro.translated) {
         var titleEl = wrapper.querySelector('.card-title');
         var descEl = wrapper.querySelector('.card-desc');
         traducirLogroCompleto(logro.Title, logro.Description, titleEl, descEl);
@@ -1355,37 +1066,9 @@ function renderizarLogros(lista) {
       }
     });
 
-    // Botón creador
-    var editBtn = wrapper.querySelector('.card-edit-btn');
-    editBtn.addEventListener('click', function (e) {
-      e.stopPropagation();
-      editingAchId = logro.ID;
-      document.getElementById('card-back-input').click();
-    });
-
     grid.appendChild(wrapper);
   });
 }
-
-/* Input reutilizable para reversos de cartas (creador) */
-var cardBackInput = document.createElement('input');
-cardBackInput.type = 'file';
-cardBackInput.accept = 'image/*';
-cardBackInput.id = 'card-back-input';
-cardBackInput.style.display = 'none';
-document.body.appendChild(cardBackInput);
-cardBackInput.addEventListener('change', function (e) {
-  var file = e.target.files[0];
-  if (file && editingAchId != null) {
-    var reader = new FileReader();
-    reader.onload = function (ev) {
-      localStorage.setItem('cardback_' + juegoActualID + '_' + editingAchId, ev.target.result);
-      renderizarLogros(filtrarLogrosActuales());
-    };
-    reader.readAsDataURL(file);
-  }
-  e.target.value = '';
-});
 
 function filtrarLogrosActuales() {
   var q = document.getElementById('search-input').value.toLowerCase();
@@ -1417,7 +1100,7 @@ document.getElementById('search-input').addEventListener('input', function () {
 });
 
 /* =========================================================
-   10) ESTADÍSTICAS GLOBALES
+   ESTADÍSTICAS GLOBALES
    ========================================================= */
 document.getElementById('btn-stats').addEventListener('click', function () {
   toggleDrawer(false);
@@ -1446,19 +1129,16 @@ function renderStats() {
   var siguienteMeta = Math.max(1000, (Math.floor(puntos / 5000) + 1) * 5000);
   var pctPuntos = Math.min(100, Math.round((puntos / siguienteMeta) * 100));
 
-  // Tarjetas
   document.getElementById('stats-cards').innerHTML =
     tarjeta(total, 'Juegos jugados', '') +
     tarjeta(completados, 'Completados 100%', 'green') +
     tarjeta(enProceso, 'En proceso', 'pink') +
     tarjeta(puntos.toLocaleString('es'), 'Puntos totales', '');
 
-  // Barras
   document.getElementById('stats-bars').innerHTML =
     barra('Logros obtenidos', sumEarned + ' / ' + sumPossible + ' (' + pctLogros + '%)', pctLogros, 'var(--accent-green)') +
     barra('Puntos hacia siguiente meta (' + siguienteMeta.toLocaleString('es') + ')', puntos.toLocaleString('es') + ' pts · ' + truePuntos.toLocaleString('es') + ' true pts', pctPuntos, 'var(--primary-neon)');
 
-  // Mosaico
   var mos = document.getElementById('stats-mosaic');
   mos.innerHTML = '';
   historialJuegos.forEach(function (j) {
@@ -1484,90 +1164,6 @@ function tarjeta(num, lbl, cls) {
 function barra(label, valor, pct, color) {
   return '<div class="stat-bar-row"><div class="stat-bar-label"><span>' + label + '</span><span>' + valor + '</span></div>' +
          '<div class="big-bar"><div class="big-bar-fill" style="width:' + pct + '%;background:' + color + ';box-shadow:0 0 12px ' + color + '"></div></div></div>';
-}
-
-/* =========================================================
-   EXPORTAR / IMPORTAR CARÁTULAS (incluye bloqueo)
-   ========================================================= */
-document.getElementById('btn-export-covers').addEventListener('click', function () {
-  var backup = {};
-  for (var i = 0; i < localStorage.length; i++) {
-    var key = localStorage.key(i);
-    if (key.startsWith('custom_cover_') || key.startsWith('cover_locked_') || key.startsWith('cardback_')) {
-      backup[key] = localStorage.getItem(key);
-    }
-  }
-  backup['__favoritos__'] = JSON.stringify([...favoritos]);
-  if (Object.keys(backup).length <= 1) { alert('No hay carátulas ni datos personalizados para exportar.'); return; }
-  var dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(backup));
-  var a = document.createElement('a');
-  a.setAttribute('href', dataStr);
-  a.setAttribute('download', 'respaldo_retro_hypnos.json');
-  document.body.appendChild(a); a.click(); a.remove();
-  toggleDrawer(false);
-});
-
-document.getElementById('btn-import-covers').addEventListener('click', function () {
-  document.getElementById('backup-file-input').click();
-});
-document.getElementById('backup-file-input').addEventListener('change', function (e) {
-  var file = e.target.files[0];
-  if (!file) return;
-  var reader = new FileReader();
-  reader.onload = function (ev) {
-    try {
-      var imported = JSON.parse(ev.target.result);
-      var n = 0;
-      for (var key in imported) {
-        if (key === '__favoritos__') {
-          try { JSON.parse(imported[key]).forEach(function (id) { favoritos.add(String(id)); }); } catch (x) {}
-          localStorage.setItem('ra_favoritos', JSON.stringify([...favoritos]));
-          continue;
-        }
-        if (key.startsWith('custom_cover_') || key.startsWith('cover_locked_') || key.startsWith('cardback_')) {
-          localStorage.setItem(key, imported[key]); n++;
-        }
-      }
-      alert('¡Éxito! Se importaron ' + n + ' elementos personalizados.');
-      toggleDrawer(false);
-      renderBrandBar();
-      if (juegoActualID) cargarDetallesJuego(juegoActualID, juegoActualConsola);
-    } catch (err) { alert('El archivo de respaldo no es válido.'); }
-  };
-  reader.readAsText(file);
-  e.target.value = '';
-});
-
-/* =========================================================
-   9) PWA — Service Worker + prompt de instalación
-   ========================================================= */
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function () {
-    navigator.serviceWorker.register('/sw.js').catch(function (e) { console.log('[v0] SW error', e); });
-  });
-}
-var deferredPrompt = null;
-window.addEventListener('beforeinstallprompt', function (e) {
-  e.preventDefault();
-  deferredPrompt = e;
-  document.body.classList.add('can-install');
-});
-document.getElementById('install-btn').addEventListener('click', async function () {
-  if (!deferredPrompt) { alert('Usa el menú de tu navegador → "Agregar a pantalla de inicio" para instalar la app.'); return; }
-  deferredPrompt.prompt();
-  await deferredPrompt.userChoice;
-  deferredPrompt = null;
-  document.body.classList.remove('can-install');
-  toggleDrawer(false);
-});
-window.addEventListener('appinstalled', function () { document.body.classList.remove('can-install'); });
-
-/* =========================================================
-   UTIL
-   ========================================================= */
-function showLoader(visible, texto) {
-  document.getElementById('loading-text').innerText = texto || 'CARGANDO...';
-  document.getElementById('loading').style.display = visible ? 'flex' : 'none';
 }
 </script>
 </body>
