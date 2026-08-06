@@ -793,7 +793,7 @@ function renderConsoleLevel() {
 keys.sort(function (a, b) { return groups[b].count - groups[a].count; }).forEach(function (k) {
         var g = groups[k];
         
-        // 1. Mapeo exacto entre la clave (k) y tu archivo .png en assets/consoles/
+        // El mapa que ya tienes ahí armado
         var imageMap = {
             'PS1': 'psx.png',
             'PS2': 'ps2.png',
@@ -849,24 +849,25 @@ keys.sort(function (a, b) { return groups[b].count - groups[a].count; }).forEach
             '': '.png',
         };
         
-        var fileName = imageMap[k];
+       var fileName = imageMap[k];
         
-        // 2. Si existe en el mapa, pone la etiqueta <img>, si no, usa el wordmark por defecto
+        // Evaluamos si el archivo existe en el mapa para meter la imagen correctamente
         var logoContent = fileName 
-            ? '<img src="assets/consoles/' + fileName + '" alt="' + (g.info.label || k) + '" style="max-height: 40px; max-width: 80%; object-fit: contain; filter: drop-shadow(0 0 5px ' + g.info.color + ');">'
+            ? '<img src="assets/consoles/' + fileName + '" alt="' + (g.info.label || k) + '" style="max-height: 35px; max-width: 85%; object-fit: contain; filter: drop-shadow(0 0 5px ' + g.info.color + '); display: block; margin: 0 auto;">'
             : wordmark(g.info.label, g.info.color);
 
         html += '<div class="console-tile" data-key="' + k + '" style="--tile-color: ' + g.info.color + '">' +
-                   '<div class="console-tile-icon" style="display: flex; justify-content: center; align-items: center; height: 50px;">' + logoContent + '</div>' +
+                   '<div class="console-tile-icon" style="height: 42px; display: flex; align-items: center; justify-content: center; margin-bottom: 5px;">' + logoContent + '</div>' +
                    '<span class="count">' + g.count + ' juego' + (g.count !== 1 ? 's' : '') + '</span>' +
                 '</div>';
     });
-  html += '</div>';
-  cont.innerHTML = html;
 
-  cont.querySelectorAll('.console-tile').forEach(function (tile) {
-    tile.addEventListener('click', function () { selectConsole(tile.dataset.key); });
-  });
+    html += '</div>';
+    cont.innerHTML = html;
+
+    cont.querySelectorAll('.console-tile').forEach(function (tile) {
+        tile.addEventListener('click', function () { selectConsole(tile.dataset.key); });
+    });
 }
 
 function selectConsole(key) {
