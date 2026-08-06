@@ -413,7 +413,7 @@ function svgWrap(inner, vb) {
 }
 function esc(t){ return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-/* Wordmark genérico estilizado (vector nativo) */
+/* Wordmark genérico estilizado (fallback) */
 function wordmark(text, color, sub) {
   text = String(text).toUpperCase();
   var len = text.length;
@@ -424,7 +424,7 @@ function wordmark(text, color, sub) {
   return svgWrap(inner);
 }
 
-/* Logos de MARCA (fabricantes) — SVG vectorial nativo */
+/* Logos de MARCA (fabricantes) */
 function brandLogo(brand) {
   switch (brand) {
     case 'SONY':
@@ -461,62 +461,67 @@ const BRAND_META = {
 };
 
 /* =========================================================
-   BASE DE DATOS DE CONSOLAS (detección + color de neón)
+   BASE DE DATOS DE CONSOLAS CON IMÁGENES
    ========================================================= */
 const CONSOLE_RULES = [
   // SONY
-  { m: /playstation\s*2|\bps2\b/i,               key:'PS2',   label:'PlayStation 2', brand:'SONY',   color:'#0066ff' },
-  { m: /playstation\s*3|\bps3\b/i,               key:'PS3',   label:'PlayStation 3', brand:'SONY',   color:'#c0c8dd' },
-  { m: /playstation\s*portable|\bpsp\b/i,        key:'PSP',   label:'PSP',           brand:'SONY',   color:'#00f0ff' },
-  { m: /playstation\s*vita|ps\s*vita|\bvita\b/i, key:'VITA',  label:'PS Vita',       brand:'SONY',   color:'#00aaff' },
-  { m: /playstation|\bps1\b|\bpsx\b/i,           key:'PS1',   label:'PlayStation',   brand:'SONY',   color:'#ff3300' },
+  { m: /playstation\s*2|\bps2\b/i,               key:'PS2',   label:'PlayStation 2', brand:'SONY',   color:'#0066ff', file:'ps2.png' },
+  { m: /playstation\s*3|\bps3\b/i,               key:'PS3',   label:'PlayStation 3', brand:'SONY',   color:'#c0c8dd', file:'ps3.png' },
+  { m: /playstation\s*portable|\bpsp\b/i,        key:'PSP',   label:'PSP',           brand:'SONY',   color:'#00f0ff', file:'psp.png' },
+  { m: /playstation\s*vita|ps\s*vita|\bvita\b/i, key:'VITA',  label:'PS Vita',       brand:'SONY',   color:'#00aaff', file:'psvita.png' },
+  { m: /playstation|\bps1\b|\bpsx\b/i,           key:'PS1',   label:'PlayStation',   brand:'SONY',   color:'#ff3300', file:'psx.png' },
   // NINTENDO
-  { m: /super\s*nintendo|\bsnes\b|super\s*famicom/i, key:'SNES', label:'Super NES', brand:'NINTENDO', color:'#8b5cf6' },
-  { m: /nintendo\s*64|\bn64\b/i,                 key:'N64',   label:'Nintendo 64',   brand:'NINTENDO', color:'#00e676' },
-  { m: /gamecube|\bngc\b|\bgcn\b/i,              key:'GC',    label:'GameCube',      brand:'NINTENDO', color:'#6f42c1' },
-  { m: /game\s*boy\s*advance|\bgba\b/i,          key:'GBA',   label:'Game Boy Adv.', brand:'NINTENDO', color:'#9d00ff' },
-  { m: /game\s*boy\s*color|\bgbc\b/i,            key:'GBC',   label:'Game Boy Color',brand:'NINTENDO', color:'#ffb000' },
-  { m: /game\s*boy/i,                            key:'GB',    label:'Game Boy',      brand:'NINTENDO', color:'#9bbc0f' },
-  { m: /nintendo\s*ds|\bnds\b|\b3ds\b/i,         key:'DS',    label:'Nintendo DS',   brand:'NINTENDO', color:'#38b6ff' },
-  { m: /virtual\s*boy/i,                         key:'VB',    label:'Virtual Boy',   brand:'NINTENDO', color:'#ff1a1a' },
-  { m: /pokemon\s*mini/i,                        key:'PKM',   label:'Pokémon Mini',  brand:'NINTENDO', color:'#ffcc00' },
-  { m: /\bwii\b|wii\s*u/i,                       key:'WII',   label:'Wii',           brand:'NINTENDO', color:'#00b7eb' },
-  { m: /famicom/i,                               key:'NES',   label:'Famicom',       brand:'NINTENDO', color:'#e60012' },
-  { m: /\bnes\b|nintendo\s*entertainment/i,      key:'NES',   label:'NES',           brand:'NINTENDO', color:'#e60012' },
+  { m: /super\s*nintendo|\bsnes\b|super\s*famicom/i, key:'SNES', label:'Super NES', brand:'NINTENDO', color:'#8b5cf6', file:'snes.png' },
+  { m: /nintendo\s*64|\bn64\b/i,                 key:'N64',   label:'Nintendo 64',   brand:'NINTENDO', color:'#00e676', file:'n64.png' },
+  { m: /gamecube|\bngc\b|\bgcn\b/i,              key:'GC',    label:'GameCube',      brand:'NINTENDO', color:'#6f42c1', file:'gamecube.png' },
+  { m: /game\s*boy\s*advance|\bgba\b/i,          key:'GBA',   label:'Game Boy Adv.', brand:'NINTENDO', color:'#9d00ff', file:'gba.png' },
+  { m: /game\s*boy\s*color|\bgbc\b/i,            key:'GBC',   label:'Game Boy Color',brand:'NINTENDO', color:'#ffb000', file:'gbc.png' },
+  { m: /game\s*boy/i,                            key:'GB',    label:'Game Boy',      brand:'NINTENDO', color:'#9bbc0f', file:'gb.png' },
+  { m: /nintendo\s*ds|\bnds\b/i,                 key:'DS',    label:'Nintendo DS',   brand:'NINTENDO', color:'#38b6ff', file:'nds.png' },
+  { m: /\b3ds\b/i,                               key:'3DS',   label:'Nintendo 3DS',  brand:'NINTENDO', color:'#ce181e', file:'nintendo-3ds.png' },
+  { m: /virtual\s*boy/i,                         key:'VB',    label:'Virtual Boy',   brand:'NINTENDO', color:'#ff1a1a', file:'vb.png' },
+  { m: /pokemon\s*mini/i,                        key:'PKM',   label:'Pokémon Mini',  brand:'NINTENDO', color:'#ffcc00', file:'pkm.png' },
+  { m: /\bwii\b/i,                               key:'WII',   label:'Wii',           brand:'NINTENDO', color:'#00b7eb', file:'wii.png' },
+  { m: /wii\s*u/i,                               key:'WIIU',  label:'Wii U',         brand:'NINTENDO', color:'#00b7eb', file:'wii-u.png' },
+  { m: /famicom/i,                               key:'NES',   label:'Famicom',       brand:'NINTENDO', color:'#e60012', file:'nes.png' },
+  { m: /\bnes\b|nintendo\s*entertainment/i,      key:'NES',   label:'NES',           brand:'NINTENDO', color:'#e60012', file:'nes.png' },
   // SEGA
-  { m: /mega\s*drive|genesis/i,                  key:'GEN',   label:'Genesis / MD',  brand:'SEGA',   color:'#1e73ff' },
-  { m: /master\s*system/i,                       key:'SMS',   label:'Master System', brand:'SEGA',   color:'#d0021b' },
-  { m: /game\s*gear/i,                           key:'GG',    label:'Game Gear',     brand:'SEGA',   color:'#1b6ec2' },
-  { m: /saturn/i,                                key:'SAT',   label:'Saturn',        brand:'SEGA',   color:'#c0c8dd' },
-  { m: /dreamcast/i,                             key:'DC',    label:'Dreamcast',     brand:'SEGA',   color:'#ff6a00' },
-  { m: /sega\s*cd|mega\s*cd/i,                    key:'SCD',   label:'Sega CD',       brand:'SEGA',   color:'#1e73ff' },
-  { m: /32x/i,                                   key:'32X',   label:'Sega 32X',      brand:'SEGA',   color:'#1e73ff' },
-  { m: /sg-?1000/i,                              key:'SG',    label:'SG-1000',       brand:'SEGA',   color:'#1e73ff' },
+  { m: /mega\s*drive|genesis/i,                  key:'GEN',   label:'Genesis / MD',  brand:'SEGA',   color:'#1e73ff', file:'megadrive.png' },
+  { m: /master\s*system/i,                       key:'SMS',   label:'Master System', brand:'SEGA',   color:'#d0021b', file:'master-system.png' },
+  { m: /game\s*gear/i,                           key:'GG',    label:'Game Gear',     brand:'SEGA',   color:'#1b6ec2', file:'game-gear.png' },
+  { m: /saturn/i,                                key:'SAT',   label:'Saturn',        brand:'SEGA',   color:'#c0c8dd', file:'sega-saturn.png' },
+  { m: /dreamcast/i,                             key:'DC',    label:'Dreamcast',     brand:'SEGA',   color:'#ff6a00', file:'dreamcast.png' },
+  { m: /sega\s*cd|mega\s*cd/i,                    key:'SCD',   label:'Sega CD',       brand:'SEGA',   color:'#1e73ff', file:'sega-cd.png' },
+  { m: /32x/i,                                   key:'32X',   label:'Sega 32X',      brand:'SEGA',   color:'#1e73ff', file:'sega-32x.png' },
+  { m: /sg-?1000/i,                              key:'SG',    label:'SG-1000',       brand:'SEGA',   color:'#1e73ff', file:'sg-1000.png' },
   // ATARI
-  { m: /atari\s*2600|\b2600\b/i,                 key:'A2600', label:'Atari 2600',    brand:'ATARI',  color:'#e4002b' },
-  { m: /atari\s*7800|\b7800\b/i,                 key:'A7800', label:'Atari 7800',    brand:'ATARI',  color:'#e4002b' },
-  { m: /lynx/i,                                  key:'LYNX',  label:'Atari Lynx',    brand:'ATARI',  color:'#ffcc00' },
-  { m: /jaguar/i,                                key:'JAG',   label:'Atari Jaguar',  brand:'ATARI',  color:'#cc0000' },
-  { m: /atari\s*st/i,                            key:'AST',   label:'Atari ST',      brand:'ATARI',  color:'#e4002b' },
-  { m: /atari/i,                                 key:'ATARI', label:'Atari',         brand:'ATARI',  color:'#e4002b' },
+  { m: /atari\s*2600|\b2600\b/i,                 key:'A2600', label:'Atari 2600',    brand:'ATARI',  color:'#e4002b', file:'atari-2600.png' },
+  { m: /atari\s*7800|\b7800\b/i,                 key:'A7800', label:'Atari 7800',    brand:'ATARI',  color:'#e4002b', file:'atari-7800.png' },
+  { m: /lynx/i,                                  key:'LYNX',  label:'Atari Lynx',    brand:'ATARI',  color:'#ffcc00', file:'atari-lynx.png' },
+  { m: /jaguar/i,                                key:'JAG',   label:'Atari Jaguar',  brand:'ATARI',  color:'#cc0000', file:'atari-jaguar-cd.png' },
+  { m: /atari\s*st/i,                            key:'AST',   label:'Atari ST',      brand:'ATARI',  color:'#e4002b', file:'atari-st.png' },
+  { m: /atari/i,                                 key:'ATARI', label:'Atari',         brand:'ATARI',  color:'#e4002b', file:'atari-2600.png' },
   // SNK
-  { m: /neo\s*geo\s*pocket/i,                    key:'NGP',   label:'Neo Geo Pocket',brand:'SNK',    color:'#ffb300' },
-  { m: /neo\s*geo/i,                             key:'NEO',   label:'Neo Geo',       brand:'SNK',    color:'#ffb300' },
+  { m: /neo\s*geo\s*pocket/i,                    key:'NGP',   label:'Neo Geo Pocket',brand:'SNK',    color:'#ffb300', file:'ngp.png' },
+  { m: /neo\s*geo/i,                             key:'NEO',   label:'Neo Geo',       brand:'SNK',    color:'#ffb300', file:'neogeo.png' },
   // MICROSOFT
-  { m: /xbox/i,                                  key:'XBOX',  label:'Xbox',          brand:'MICROSOFT', color:'#107c10' },
+  { m: /xbox/i,                                  key:'XBOX',  label:'Xbox',          brand:'MICROSOFT', color:'#107c10', file:'xbox.png' },
   // NEC
-  { m: /pc\s*engine|turbo\s*grafx|turbografx|pc-?fx/i, key:'PCE', label:'PC Engine', brand:'NEC',  color:'#ff7a00' },
+  { m: /pc\s*engine|turbo\s*grafx|turbografx|pc-?fx/i, key:'PCE', label:'PC Engine', brand:'NEC',  color:'#ff7a00', file:'pce.png' },
   // OTROS
-  { m: /arcade|mame|neo\s*geo\s*mvs/i,           key:'ARC',   label:'Arcade',        brand:'OTHER',  color:'#ff00aa' },
-  { m: /\bdos\b|ms-?dos/i,                        key:'DOS',   label:'MS-DOS',        brand:'OTHER',  color:'#00e676' },
-  { m: /wonderswan/i,                            key:'WS',    label:'WonderSwan',    brand:'OTHER',  color:'#5a7d9a' },
-  { m: /colecovision/i,                          key:'COL',   label:'ColecoVision',  brand:'OTHER',  color:'#e4002b' },
-  { m: /intellivision/i,                         key:'INT',   label:'Intellivision', brand:'OTHER',  color:'#c8a24b' },
-  { m: /vectrex/i,                               key:'VEC',   label:'Vectrex',       brand:'OTHER',  color:'#00f0ff' },
-  { m: /msx/i,                                   key:'MSX',   label:'MSX',           brand:'OTHER',  color:'#8b5cf6' },
-  { m: /odyssey/i,                               key:'ODY',   label:'Odyssey 2',     brand:'OTHER',  color:'#8b5cf6' },
-  { m: /arduboy/i,                               key:'ARD',   label:'Arduboy',       brand:'OTHER',  color:'#00e676' },
-  { m: /3do/i,                                   key:'3DO',   label:'3DO',           brand:'OTHER',  color:'#c0c8dd' }
+  { m: /cps1/i,                                  key:'CPS1',  label:'CPS-1',         brand:'OTHER',  color:'#ff00aa', file:'cps1.png' },
+  { m: /cps2/i,                                  key:'CPS2',  label:'CPS-2',         brand:'OTHER',  color:'#ff00aa', file:'cps2.png' },
+  { m: /cps3/i,                                  key:'CPS3',  label:'CPS-3',         brand:'OTHER',  color:'#ff00aa', file:'cps3.png' },
+  { m: /arcade|mame|neo\s*geo\s*mvs/i,           key:'ARC',   label:'Arcade',        brand:'OTHER',  color:'#ff00aa', file:'arcade.png' },
+  { m: /\bdos\b|ms-?dos/i,                        key:'DOS',   label:'MS-DOS',        brand:'OTHER',  color:'#00e676', file:'msdos.png' },
+  { m: /wonderswan/i,                            key:'WS',    label:'WonderSwan',    brand:'OTHER',  color:'#5a7d9a', file:'wonderswan.png' },
+  { m: /colecovision/i,                          key:'COL',   label:'ColecoVision',  brand:'OTHER',  color:'#e4002b', file:'colecovision.png' },
+  { m: /intellivision/i,                         key:'INT',   label:'Intellivision', brand:'OTHER',  color:'#c8a24b', file:'intellivision.png' },
+  { m: /vectrex/i,                               key:'VEC',   label:'Vectrex',       brand:'OTHER',  color:'#00f0ff', file:'vectrex.png' },
+  { m: /msx/i,                                   key:'MSX',   label:'MSX',           brand:'OTHER',  color:'#8b5cf6', file:'msx.png' },
+  { m: /odyssey/i,                               key:'ODY',   label:'Odyssey 2',     brand:'OTHER',  color:'#8b5cf6', file:'odyssey.png' },
+  { m: /arduboy/i,                               key:'ARD',   label:'Arduboy',       brand:'OTHER',  color:'#00e676', file:'arduboy.png' },
+  { m: /3do/i,                                   key:'3DO',   label:'3DO',           brand:'OTHER',  color:'#c0c8dd', file:'3do.png' }
 ];
 
 function getConsoleInfo(name) {
@@ -524,10 +529,17 @@ function getConsoleInfo(name) {
   for (var i = 0; i < CONSOLE_RULES.length; i++) {
     if (CONSOLE_RULES[i].m.test(n)) {
       var r = CONSOLE_RULES[i];
-      return { key: r.key, label: r.label, brand: r.brand, color: r.color, raw: n };
+      return { 
+        key: r.key, 
+        label: r.label, 
+        brand: r.brand, 
+        color: r.color, 
+        file: r.file ? 'assets/consoles/' + r.file : null, 
+        raw: n 
+      };
     }
   }
-  return { key: 'OTHER', label: n || 'Consola', brand: 'OTHER', color: '#00f0ff', raw: n };
+  return { key: 'OTHER', label: n || 'Consola', brand: 'OTHER', color: '#00f0ff', file: null, raw: n };
 }
 
 function hexToRgba(hex, a) {
@@ -544,7 +556,14 @@ function actualizarLogoVectorialConsola(consoleName) {
 
   container.style.setProperty('--console-color', info.color);
   container.style.setProperty('--console-bg', hexToRgba(info.color, 0.18));
-  svgHolder.innerHTML = wordmark(info.label, info.color);
+
+  // Si existe la imagen en la ruta assets/consoles/, la carga en el contenedor
+  if (info.file) {
+    svgHolder.innerHTML = '<img src="' + info.file + '" alt="' + esc(info.label) + '" style="max-height: 50px; max-width: 100%; object-fit: contain;">';
+  } else {
+    // Si no tiene imagen definida, recurre al texto estilizado
+    svgHolder.innerHTML = wordmark(info.label, info.color);
+  }
 
   document.documentElement.style.setProperty('--theme-color', info.color);
 }
@@ -554,7 +573,6 @@ function showLoader(show, text) {
   var l = document.getElementById('loading');
   if (text) document.getElementById('loading-text').innerText = text;
   l.style.display = show ? 'flex' : 'none';
-}
 
 /* =========================================================
    ARRANQUE / SESIÓN
