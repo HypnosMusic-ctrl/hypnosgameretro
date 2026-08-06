@@ -429,17 +429,26 @@ function brandLogo(brand) {
   var fileName = '';
 
   switch (b) {
-    case 'SONY':      fileName = 'psx.png'; break;
-    case 'NINTENDO':  fileName = 'nes.png'; break;
-    case 'SEGA':      fileName = 'megadrive.png'; break;
-    case 'ATARI':     fileName = 'atari-2600.png'; break;
-    case 'SNK':       fileName = 'neogeo.png'; break;
-    case 'MICROSOFT': fileName = 'xbox.png'; break;
-    case 'NEC':       fileName = 'pce.png'; break;
+    case 'NINTENDO':  fileName = 'nintendo.png'; break;  // Logo de Nintendo
+    case 'SONY':      fileName = 'sony.png'; break;      // Logo de Sony
+    case 'SEGA':      fileName = 'sega.png'; break;      // Logo de Sega
+    case 'MICROSOFT': fileName = 'xbox.png'; break;      // Logo de Xbox
+    case 'ATARI':     fileName = 'atari.png'; break;      // Logo de Atari
+    case 'BANDAI':     fileName = 'bandai.png'; break;      // Logo de Bandai
+    case 'SNK':     fileName = 'snk.png'; break;      // Logo de Snk
+    case 'NOKIA':     fileName = 'nokia.png'; break;      // Logo de Nokia
+    case 'NEC':     fileName = 'nec.png'; break;      // Logo de Nec
+    case 'SHARP':     fileName = 'sharp.png'; break;      // Logo de Sharp
+    case 'FUJITSU':     fileName = 'fujitsu.png'; break;      // Logo de Fujitsu
+    case 'COMMODORE':     fileName = 'commodore.png'; break;      // Logo de Commodore
+    case 'PHILLIPS':     fileName = 'phillips.png'; break;      // Logo de Phillips
+    case '':     fileName = '.png'; break;      // Logo de 
+    case '':     fileName = '.png'; break;      // Logo de 
+    case '':     fileName = '.png'; break;      // Logo de 
     default: return wordmark(brand || 'RETRO', '#00f0ff');
   }
 
-  return '<img src="assets/consoles/' + fileName + '" alt="' + esc(b) + '" style="max-height: 28px; max-width: 100%; object-fit: contain;">';
+  return '<img src="assets/consoles/' + fileName + '" alt="' + esc(b) + '" style="max-height: 25px; max-width: 100%; object-fit: contain;">';
 }
 
 /* Meta de cada MARCA para la barra de filtros */
@@ -787,13 +796,57 @@ keys.sort(function (a, b) { return groups[b].count - groups[a].count; }).forEach
         // 1. Mapeo exacto entre la clave (k) y tu archivo .png en assets/consoles/
         var imageMap = {
             'PS1': 'psx.png',
+            'PS2': 'ps2.png',
             'PSP': 'psp.png',
             'SNES': 'snes.png',
             'N64': 'n64.png',
             'NES': 'nes.png',
+            'XBOX': 'xbox.png',
+            'NGC': 'ngc.png',
             'MD': 'megadrive.png',
             'GB': 'gb.png',
-            'GBA': 'gba.png'
+            'GBA': 'gba.png',
+            'GBC': 'gbc.png',
+            '32X': '32x.png',
+            'AMIGA': 'amiga.png',
+            'C64': 'c64.png',
+            'NEOGEO': 'neogeo.png',
+            'NGP': 'ngp.png',
+            'NGPC': 'ngpc.png',
+            'SATURN': 'saturn.png',
+            'CPS1': 'cps1.png',
+            'CPS2': 'cps2.png',
+            'CPS3': 'cps3.png',
+            'NGAGE': 'ngage.png',
+            'WII': 'wii.png',
+            'WII-U': 'wii-u.png',
+            'MSDOS': 'msdos.png',
+            'DREAMCAST': 'dreamcast.png',
+            'DSI': 'dsi.png',
+            'X68000': 'x68000.png',
+            'PS3': 'ps3.png',
+            'PSVITA': 'psvita.png',
+            'ATARI-2600': 'atari-2600.png',
+            'ATARI-5200': 'atari-5200.png',
+            'ATARI-7800': 'atari-7800.png',
+            'FDS': 'fds.png',
+            'WONDERSWAN': 'wonderswan.png',
+            'WONDERSWAN-color': 'wonderswan-color.png',
+            'SHARP-X1': 'sharp-x1.png',
+            'SG-1000': 'sg-1000.png',
+            'MASTER-SYSTEM': 'master-system.png',
+            'SEGA-NAOMI': 'sega-naomi.png',
+            'NINTENDO-DS': 'nintendo-ds.png',
+            'NINTENDO-3DS': 'nintendo-3ds.png',
+            'SEGA-CD': 'sega-cd.png',
+            'GAME-GEAR': 'game-gear.png',
+            'SEGA-RINGEDGE': 'sega-ringedge.png',
+            'ATARI-JAGUAR-CD': 'atari-jaguar-cd.png',
+            'ATARI-ST': 'atari-st.png',
+            'ATARI-LYNX': 'atari-lynx.png',
+            'FM-TOWNS': 'fm-towns.png',
+            '': '.png',
+            '': '.png',
         };
         
         var fileName = imageMap[k];
@@ -874,14 +927,6 @@ function attachGameItemHandlers(scope) {
     });
   });
 }
-
-document.getElementById('btn-fav-filter').addEventListener('click', function () {
-  toggleDrawer(false);
-  selectBrand('FAV');
-  document.querySelectorAll('.brand-chip').forEach(function (c) {
-    c.classList.toggle('active', c.dataset.brand === 'FAV');
-  });
-});
 
 /* =========================================================
    SINOPSIS / HISTORIA
