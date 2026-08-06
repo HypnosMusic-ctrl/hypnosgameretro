@@ -286,8 +286,8 @@
               <div class="boxart-container" id="boxart-clickable">
                 <img id="game-boxart" src="" alt="Carátula del juego" crossorigin="anonymous" />
               </div>
-            <div id="fav-heart" class="fav-heart">&#10084;</div>
-</div>
+              <div id="fav-heart" class="fav-heart">&#10084;</div>
+            </div>
 
             <!-- CONTENEDOR DEL LOGO DE LA CONSOLA (SVG nativo) -->
             <div class="under-cover-icons" id="neon-container">
@@ -430,26 +430,17 @@ function brandLogo(brand) {
   var fileName = '';
 
   switch (b) {
-    case 'NINTENDO':  fileName = 'nintendo.png'; break;  // Logo de Nintendo
-    case 'SONY':      fileName = 'sony.png'; break;      // Logo de Sony
-    case 'SEGA':      fileName = 'sega.png'; break;      // Logo de Sega
-    case 'MICROSOFT': fileName = 'xbox.png'; break;      // Logo de Xbox
-    case 'ATARI':     fileName = 'atari.png'; break;      // Logo de Atari
-    case 'BANDAI':     fileName = 'bandai.png'; break;      // Logo de Bandai
-    case 'SNK':     fileName = 'snk.png'; break;      // Logo de Snk
-    case 'NOKIA':     fileName = 'nokia.png'; break;      // Logo de Nokia
-    case 'NEC':     fileName = 'nec.png'; break;      // Logo de Nec
-    case 'SHARP':     fileName = 'sharp.png'; break;      // Logo de Sharp
-    case 'FUJITSU':     fileName = 'fujitsu.png'; break;      // Logo de Fujitsu
-    case 'COMMODORE':     fileName = 'commodore.png'; break;      // Logo de Commodore
-    case 'PHILLIPS':     fileName = 'phillips.png'; break;      // Logo de Phillips
-    case '':     fileName = '.png'; break;      // Logo de 
-    case '':     fileName = '.png'; break;      // Logo de 
-    case '':     fileName = '.png'; break;      // Logo de 
+    case 'SONY':      fileName = 'psx.png'; break;
+    case 'NINTENDO':  fileName = 'nes.png'; break;
+    case 'SEGA':      fileName = 'megadrive.png'; break;
+    case 'ATARI':     fileName = 'atari-2600.png'; break;
+    case 'SNK':       fileName = 'neogeo.png'; break;
+    case 'MICROSOFT': fileName = 'xbox.png'; break;
+    case 'NEC':       fileName = 'pce.png'; break;
     default: return wordmark(brand || 'RETRO', '#00f0ff');
   }
 
-  return '<img src="assets/consoles/' + fileName + '" alt="' + esc(b) + '" style="max-height: 25px; max-width: 100%; object-fit: contain;">';
+  return '<img src="assets/consoles/' + fileName + '" alt="' + esc(b) + '" style="max-height: 28px; max-width: 100%; object-fit: contain;">';
 }
 
 /* Meta de cada MARCA para la barra de filtros */
@@ -752,12 +743,6 @@ function renderBrandBar() {
     bar.appendChild(chip);
   });
 
-  var favChip = document.createElement('div');
-  favChip.className = 'brand-chip fav' + (currentBrand === 'FAV' ? ' active' : '');
-  favChip.dataset.brand = 'FAV';
-  favChip.innerHTML = '<span class="brand-chip-text" style="color:var(--secondary-neon)">&#10084; FAV</span>';
-  favChip.addEventListener('click', function () { selectBrand('FAV'); });
-  bar.appendChild(favChip);
 }
 
 function selectBrand(brand) {
@@ -772,94 +757,44 @@ function selectBrand(brand) {
 }
 
 function renderConsoleLevel() {
-  var titleEl = document.getElementById('history-title');
-  var cont = document.getElementById('history-content');
-  titleEl.innerHTML = '&#128190; CONSOLAS' + (currentBrand !== 'ALL' ? ' · ' + BRAND_META[currentBrand].label.toUpperCase() : '');
+    var titleEl = document.getElementById('history-title');
+    var cont = document.getElementById('history-content');
+    titleEl.innerHTML = '&#128190; CONSOLAS' + (currentBrand !== 'ALL' ? ' · ' + BRAND_META[currentBrand].label.toUpperCase() : '');
 
-  var groups = {};
-  historialJuegos.forEach(function (j) {
-    var info = getConsoleInfo(j.ConsoleName);
-    if (currentBrand !== 'ALL' && info.brand !== currentBrand) return;
-    if (!groups[info.key]) groups[info.key] = { info: info, count: 0 };
-    groups[info.key].count++;
-  });
+    var groups = {};
+    historialJuegos.forEach(function (j) {
+        var info = getConsoleInfo(j.ConsoleName);
+        if (currentBrand !== 'ALL' && info.brand !== currentBrand) return;
+        if (!groups[info.key]) groups[info.key] = { info: info, count: 0 };
+        groups[info.key].count++;
+    });
 
-  var keys = Object.keys(groups);
-  if (keys.length === 0) {
-    cont.innerHTML = '<p class="empty-note">No hay consolas registradas para esta marca.</p>';
-    return;
-  }
+    var keys = Object.keys(groups);
+    if (keys.length === 0) {
+        cont.innerHTML = '<p class="empty-note">No hay consolas registradas para esta marca.</p>';
+        return;
+    }
 
-  var html = '<div class="console-grid">';
-keys.sort(function (a, b) { return groups[b].count - groups[a].count; }).forEach(function (k) {
+    var html = '<div class="console-grid">';
+    
+    keys.sort(function (a, b) { return groups[b].count - groups[a].count; }).forEach(function (k) {
         var g = groups[k];
         
-        // El mapa que ya tienes ahí armado
         var imageMap = {
-            'PS1': 'psx.png',
-            'PS2': 'ps2.png',
-            'PSP': 'psp.png',
-            'SNES': 'snes.png',
-            'N64': 'n64.png',
-            'NES': 'nes.png',
-            'XBOX': 'xbox.png',
-            'NGC': 'ngc.png',
-            'MD': 'megadrive.png',
-            'GB': 'gb.png',
-            'GBA': 'gba.png',
-            'GBC': 'gbc.png',
-            '32X': '32x.png',
-            'AMIGA': 'amiga.png',
-            'C64': 'c64.png',
-            'NEOGEO': 'neogeo.png',
-            'NGP': 'ngp.png',
-            'NGPC': 'ngpc.png',
-            'SATURN': 'saturn.png',
-            'CPS1': 'cps1.png',
-            'CPS2': 'cps2.png',
-            'CPS3': 'cps3.png',
-            'NGAGE': 'ngage.png',
-            'WII': 'wii.png',
-            'WII-U': 'wii-u.png',
-            'MSDOS': 'msdos.png',
-            'DREAMCAST': 'dreamcast.png',
-            'DSI': 'dsi.png',
-            'X68000': 'x68000.png',
-            'PS3': 'ps3.png',
-            'PSVITA': 'psvita.png',
-            'ATARI-2600': 'atari-2600.png',
-            'ATARI-5200': 'atari-5200.png',
-            'ATARI-7800': 'atari-7800.png',
-            'FDS': 'fds.png',
-            'WONDERSWAN': 'wonderswan.png',
-            'WONDERSWAN-color': 'wonderswan-color.png',
-            'SHARP-X1': 'sharp-x1.png',
-            'SG-1000': 'sg-1000.png',
-            'MASTER-SYSTEM': 'master-system.png',
-            'SEGA-NAOMI': 'sega-naomi.png',
-            'NINTENDO-DS': 'nintendo-ds.png',
-            'NINTENDO-3DS': 'nintendo-3ds.png',
-            'SEGA-CD': 'sega-cd.png',
-            'GAME-GEAR': 'game-gear.png',
-            'SEGA-RINGEDGE': 'sega-ringedge.png',
-            'ATARI-JAGUAR-CD': 'atari-jaguar-cd.png',
-            'ATARI-ST': 'atari-st.png',
-            'ATARI-LYNX': 'atari-lynx.png',
-            'FM-TOWNS': 'fm-towns.png',
-            '': '.png',
-            '': '.png'
+            'PS1': 'psx.png', 'PS2': 'ps2.png', 'PSP': 'psp.png', 
+            'SNES': 'snes.png', 'N64': 'n64.png', 'NES': 'nes.png', 
+            'XBOX': 'xbox.png', 'NGC': 'ngc.png', 'MD': 'megadrive.png', 
+            'GB': 'gb.png', 'GBA': 'gba.png'
         };
-        
-       var fileName = imageMap[k];
-        
-        // Evaluamos si el archivo existe en el mapa para meter la imagen correctamente
-        var logoContent = fileName 
-            ? '<img src="assets/consoles/' + fileName + '" alt="' + (g.info.label || k) + '" style="max-height: 35px; max-width: 85%; object-fit: contain; filter: drop-shadow(0 0 5px ' + g.info.color + '); display: block; margin: 0 auto;">'
+
+        var imgFile = imageMap[k.toUpperCase()];
+        var imagenConsola = imgFile 
+            ? '<img src="assets/consoles/' + imgFile + '" alt="' + g.info.label + '" style="max-height: 34px; max-width: 100%; object-fit: contain;">'
             : wordmark(g.info.label, g.info.color);
 
-        html += '<div class="console-tile" data-key="' + k + '" style="--tile-color: ' + g.info.color + '">' +
-                   '<div class="console-tile-icon" style="height: 42px; display: flex; align-items: center; justify-content: center; margin-bottom: 5px;">' + logoContent + '</div>' +
-                   '<span class="count">' + g.count + ' juego' + (g.count !== 1 ? 's' : '') + '</span>' +
+        html += '<div class="console-tile" data-key="' + k + '" style="--tile-color:' + g.info.color + '">' +
+                    imagenConsola +
+                    '<span class="count">' + g.count + ' juego' + (g.count !== 1 ? 's' : '') + '</span>' +
                 '</div>';
     });
 
@@ -929,6 +864,14 @@ function attachGameItemHandlers(scope) {
     });
   });
 }
+
+document.getElementById('btn-fav-filter').addEventListener('click', function () {
+  toggleDrawer(false);
+  selectBrand('FAV');
+  document.querySelectorAll('.brand-chip').forEach(function (c) {
+    c.classList.toggle('active', c.dataset.brand === 'FAV');
+  });
+});
 
 /* =========================================================
    SINOPSIS / HISTORIA
