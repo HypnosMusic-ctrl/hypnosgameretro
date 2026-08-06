@@ -283,7 +283,6 @@
         <section class="game-hero">
           <div class="cover-wrapper">
             <div class="cover-shell">
-              <button class="fav-heart" id="fav-heart" title="Marcar como favorito" aria-label="Favorito">&#9829;</button>
               <div class="boxart-container" id="boxart-clickable">
                 <img id="game-boxart" src="" alt="Carátula del juego" crossorigin="anonymous" />
               </div>
@@ -424,27 +423,23 @@ function wordmark(text, color, sub) {
   return svgWrap(inner);
 }
 
-/* Logos de MARCA (fabricantes) */
+/* Logos de MARCA (fabricantes) — Carga imágenes desde assets/consoles/ */
 function brandLogo(brand) {
-  switch (brand) {
-    case 'SONY':
-      return svgWrap('<text x="130" y="42" text-anchor="middle" font-family="Georgia, \'Times New Roman\', serif" font-weight="700" font-size="34" letter-spacing="4" fill="#dfe9ff">SONY</text><rect x="60" y="50" width="140" height="2" fill="#dfe9ff" opacity="0.6"/>');
-    case 'NINTENDO':
-      return svgWrap('<rect x="40" y="18" width="180" height="30" rx="15" fill="none" stroke="#e60012" stroke-width="3"/><text x="130" y="40" text-anchor="middle" font-family="Arial, sans-serif" font-weight="800" font-size="20" letter-spacing="1" fill="#e60012">Nintendo</text>');
-    case 'SEGA':
-      return svgWrap('<text x="130" y="44" text-anchor="middle" font-family="Arial Black, Impact, sans-serif" font-style="italic" font-weight="900" font-size="40" letter-spacing="2" fill="#1e73ff">SEGA</text>');
-    case 'ATARI':
-      return svgWrap('<g fill="#e4002b"><path d="M118 14 L128 14 L128 58 L118 58 Z"/><path d="M112 14 C 96 22, 90 40, 90 58 L100 58 C100 42, 104 26, 112 20 Z"/><path d="M134 14 C 150 22, 156 40, 156 58 L146 58 C146 42, 142 26, 134 20 Z"/></g>');
-    case 'SNK':
-      return svgWrap('<text x="130" y="44" text-anchor="middle" font-family="Arial Black, Impact, sans-serif" font-weight="900" font-size="40" letter-spacing="3" fill="#ffb300">SNK</text>');
-    case 'MICROSOFT':
-      return svgWrap('<circle cx="80" cy="32" r="22" fill="none" stroke="#107c10" stroke-width="4"/><path d="M70 22 L90 42 M90 22 L70 42" stroke="#107c10" stroke-width="5" stroke-linecap="round"/><text x="155" y="40" text-anchor="middle" font-family="Arial, sans-serif" font-weight="800" font-size="22" fill="#8fd18f" letter-spacing="1">XBOX</text>');
-    case 'NEC':
-      return svgWrap('<text x="130" y="44" text-anchor="middle" font-family="Arial Black, Impact, sans-serif" font-weight="900" font-size="30" letter-spacing="2" fill="#ff7a00">PC ENGINE</text>');
-    case 'ATARI-OTHER':
-    default:
-      return wordmark('RETRO', '#00f0ff');
+  var b = String(brand || '').toUpperCase();
+  var fileName = '';
+
+  switch (b) {
+    case 'SONY':      fileName = 'psx.png'; break;
+    case 'NINTENDO':  fileName = 'nes.png'; break;
+    case 'SEGA':      fileName = 'megadrive.png'; break;
+    case 'ATARI':     fileName = 'atari-2600.png'; break;
+    case 'SNK':       fileName = 'neogeo.png'; break;
+    case 'MICROSOFT': fileName = 'xbox.png'; break;
+    case 'NEC':       fileName = 'pce.png'; break;
+    default: return wordmark(brand || 'RETRO', '#00f0ff');
   }
+
+  return '<img src="assets/consoles/' + fileName + '" alt="' + esc(b) + '" style="max-height: 28px; max-width: 100%; object-fit: contain;">';
 }
 
 /* Meta de cada MARCA para la barra de filtros */
