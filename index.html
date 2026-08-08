@@ -1,0 +1,2149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>RETRO HYPNOS · Logros & Consolas</title>
+
+  <!-- ===== PWA META ===== -->
+  <meta name="theme-color" content="#00f0ff" />
+  <meta name="description" content="Biblioteca de logros de RetroAchievements: consolas, carátulas, favoritos y estadísticas globales." />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" type="image/png" href="/icons/icon-512.png" />
+  <link rel="apple-touch-icon" href="/icons/icon-512.png" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Retro Hypnos" />
+
+  <!-- ===== ÍNDICE DETALLADO DE ESTILOS CSS =====
+    1. VARIABLES Y CONFIGURACIÓN GENERAL
+    2. COMPONENTES REUTILIZABLES
+       2.1. Entradas de Texto y Selectores (Inputs/Selects)
+       2.2. Botón Principal Cyberpunk (btn-cyber)
+       2.3. Botón Secundario de Menú (btn-cyber-sec)
+       2.4. Botón de Navegación Atrás (nav-back)
+    3. PANTALLA DE LOGIN (Tarjetas, Títulos con Glitch y Pistas)
+    4. CABECERA DE CONTROL REMOTO (Header General, Perfil de Usuario y Acciones PS)
+    5. MENÚ LATERAL CONFIGURACIONES (Drawer Overlay, Lista de Opciones y Multimedia Placeholder)
+    6. DISTRIBUCIÓN PRINCIPAL DE LA BIBLIOTECA
+       6.1. Rejilla Base (Main Grid) y Panel de Soporte (Sidebar)
+       6.2. Barra de Marcas Integradas (Brand Bar & Chips Corporativos)
+       6.3. Cuadrícula de Consolas (Console Grid & Tiles Interactivos)
+       6.4. Listado Desplegable de Títulos (Games List & Items de Selección)
+    7. PANEL DE DETALLES DEL JUEGO (FICHA HERO CENTRAL)
+       7.1. Contenedor de Carátula Giratoria e Imagen Base (Cover Wrapper & Boxart)
+       7.2. Botón Flotante de Favoritos (Fav Heart Activo/Inactivo)
+       7.3. Emblema Neón Nativo de Consola (Under Cover Icons & SVG Holder)
+       7.4. Bloque de Etiquetas Informativas (Badge Container, Consola, Género, Idioma)
+       7.5. Título Dinámico del Juego Seleccionado (Game Title Text)
+       7.6. Detalles de Metadatos de Publicación (Desarrollador y Editor)
+       7.7. Barra de Progreso y Porcentaje de Desbloqueo (Progress Fill)
+       7.8. Bloque de Texto Histórico / Sinopsis de Argumento (Description Box)
+    8. ÁLBUM DE RECOMPENSAS DIGITALES
+       8.1. Entrada de Búsqueda de Logros (Search Input)
+       8.2. Rejilla del Álbum Dinámico (Achievements Grid)
+       8.3. Tarjetas con Efecto de Giro 3D (Card 3D Wrapper, Inner, Front & Back Face)
+       8.4. Barra de Progreso Numérico de Logros con Máscaras (Num Bar Fill)
+    9. PANTALLA DE ESTADÍSTICAS GLOBALES
+       9.1. Contenedor Pantalla Completa (Screen Stats Wrap)
+       9.2. Tarjetas de Métricas numéricas individuales (Stat Cards)
+       9.3. Barras de Desempeño y Metas de Puntuación (Big Bar Fill)
+       9.4. Mosaico General de Colección (Mosaic Items, Mini Covers & Progress Bars)
+    10. ANIMACIONES NATIVAS Y EFECTOS DE ILUMINACIÓN
+  ======================================= -->
+  <style>
+    /* 1. VARIABLES Y CONFIGURACIÓN GENERAL */
+    :root {
+      --bg-color: #070913;
+      --panel-bg: rgba(20, 24, 45, 0.95);
+      --primary-neon: #00f0ff;
+      --secondary-neon: #ff0055;
+      --accent-green: #00e676;
+      --text-main: #e0f7fc;
+      --text-dim: #71829e;
+      --theme-color: #00f0ff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    html {
+      background-color: var(--bg-color);
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 15px;
+      display: flex;
+      justify-content: center;
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #0b0e1b;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #26406b;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--primary-neon);
+    }
+
+    #app {
+      width: 100%;
+      max-width: 1200px;
+    }
+
+    .screen {
+      display: none;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    /* 2. COMPONENTES REUTILIZABLES */
+    /* 2.1. Entradas de Texto y Selectores (Inputs/Selects) */
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .input-group label {
+      font-size: 0.7rem;
+      color: var(--primary-neon);
+    }
+
+    input, select {
+      padding: 12px;
+      border: 1px solid #253356;
+      background: #0b0e1b;
+      color: #fff;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      width: 100%;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--primary-neon);
+      outline: none;
+    }
+
+    /* 2.2. Botón Principal Cyberpunk (btn-cyber) */
+    .btn-cyber {
+      padding: 12px;
+      background: var(--primary-neon);
+      color: #000;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      letter-spacing: 1px;
+      border-radius: 4px;
+    }
+
+    .btn-cyber:hover {
+      background: #fff;
+      box-shadow: 0 0 15px var(--primary-neon);
+    }
+
+    /* 2.3. Botón Secundario de Menú (btn-cyber-sec) */
+    .btn-cyber-sec {
+      padding: 10px 14px;
+      background: #141c33;
+      color: var(--primary-neon);
+      font-weight: bold;
+      border: 1px solid var(--primary-neon);
+      cursor: pointer;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      width: 100%;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-cyber-sec:hover {
+      background: var(--primary-neon);
+      color: #000;
+      box-shadow: 0 0 10px var(--primary-neon);
+    }
+
+    /* 2.4. Botón de Navegación Atrás (nav-back) */
+    .nav-back {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #0b0e1b;
+      border: 1px solid #26406b;
+      color: var(--primary-neon);
+      padding: 7px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.7rem;
+      font-weight: bold;
+    }
+
+    .nav-back:hover {
+      background: #141c33;
+      border-color: var(--primary-neon);
+    }
+
+    /* 3. PANTALLA DE LOGIN */
+    #screen-login {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      min-height: 80vh;
+    }
+
+    #screen-login.active {
+      display: flex;
+    }
+
+    .cyber-card {
+      background: var(--panel-bg);
+      border: 1px solid var(--primary-neon);
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
+      padding: 30px;
+      border-radius: 6px;
+      width: 100%;
+      max-width: 420px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .glitch-title {
+      font-size: 1.8rem;
+      color: var(--primary-neon);
+      text-shadow: 2px 2px var(--secondary-neon);
+      text-align: center;
+      letter-spacing: 2px;
+    }
+
+    .subtitle {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      text-align: center;
+      margin-top: -8px;
+    }
+
+    .login-hint {
+      font-size: 0.62rem;
+      color: var(--text-dim);
+      line-height: 1.5;
+    }
+
+    .login-hint a {
+      color: var(--primary-neon);
+    }
+
+    /* 4. CABECERA DE CONTROL REMOTO */
+    .cyber-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--panel-bg);
+      padding: 12px 20px;
+      border: 1px solid #1c2742;
+      margin-bottom: 20px;
+      border-radius: 4px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: bold;
+      color: var(--primary-neon);
+    }
+
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      background: var(--accent-green);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--accent-green);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .ps-controller-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #0b0e1b;
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid #1c2742;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .ps-controller-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 12px rgba(0, 240, 255, 0.4);
+      border-color: var(--primary-neon);
+    }
+
+    .ps-symbol {
+      font-size: 1.1rem;
+      font-weight: 900;
+      animation: rgbGlow 3s infinite alternate;
+    }
+
+    .ps-square {
+      color: #ff0055;
+      text-shadow: 0 0 8px #ff0055;
+    }
+
+    .ps-cross {
+      color: #00f0ff;
+      text-shadow: 0 0 8px #00f0ff;
+    }
+
+    .ps-circle {
+      color: #ff5500;
+      text-shadow: 0 0 8px #ff5500;
+    }
+
+    .ps-triangle {
+      color: #00e676;
+      text-shadow: 0 0 8px #00e676;
+    }
+
+    /* 5. MENÚ LATERAL CONFIGURACIONES */
+    .side-drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(4px);
+      z-index: 200;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .side-drawer-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .side-drawer {
+      position: fixed;
+      top: 0;
+      right: -360px;
+      width: 320px;
+      max-width: 88vw;
+      height: 100vh;
+      background: var(--panel-bg);
+      border-left: 2px solid var(--primary-neon);
+      box-shadow: -5px 0 25px rgba(0,240,255,0.3);
+      z-index: 201;
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      transition: right 0.3s cubic-bezier(0.4,0,0.2,1);
+      overflow-y: auto;
+    }
+
+    .side-drawer.active {
+      right: 0;
+    }
+
+    .drawer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #1c2742;
+      padding-bottom: 15px;
+    }
+
+    .drawer-title {
+      color: var(--primary-neon);
+      font-size: 1.1rem;
+    }
+
+    .drawer-close-btn {
+      background: transparent;
+      border: none;
+      color: var(--secondary-neon);
+      font-size: 1.5rem;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .drawer-menu-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 6px;
+    }
+
+    .drawer-section-label {
+      font-size: 0.62rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 6px;
+    }
+
+    .multimedia-placeholder {
+      background: #0b0e1b;
+      border: 1px dashed #26406b;
+      border-radius: 6px;
+      padding: 18px;
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 0.7rem;
+      line-height: 1.6;
+    }
+
+    /* 6. DISTRIBUCIÓN PRINCIPAL DE LA BIBLIOTECA */
+    /* 6.1. Rejilla Base (Main Grid) y Panel de Soporte (Sidebar) */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 860px) {
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .sidebar-panel {
+      background: var(--panel-bg);
+      border: 1px solid #1c2742;
+      border-radius: 6px;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .sidebar-panel h3 {
+      font-size: 0.8rem;
+      color: var(--primary-neon);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* 6.2. Barra de Marcas Integradas (Brand Bar) */
+    .brand-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .brand-chip {
+      background: #0b0e1b;
+      border: 1px solid #1c2742;
+      border-radius: 6px;
+      padding: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 46px;
+      flex: 1 1 30%;
+      min-width: 70px;
+      transition: 0.2s;
+    }
+
+    .brand-chip svg {
+      width: 100%;
+      height: 100%;
+      max-height: 30px;
+    }
+
+    .brand-chip:hover {
+      border-color: var(--primary-neon);
+      box-shadow: 0 0 8px rgba(0,240,255,0.3);
+    }
+
+    .brand-chip.active {
+      border-color: var(--primary-neon);
+      background: #141c33;
+      box-shadow: 0 0 12px rgba(0,240,255,0.4);
+    }
+
+    .brand-chip.fav.active {
+      border-color: var(--secondary-neon);
+      box-shadow: 0 0 12px rgba(255,0,85,0.5);
+    }
+
+    .brand-chip-text {
+      font-size: 0.7rem;
+      font-weight: bold;
+      color: var(--text-main);
+      letter-spacing: 1px;
+    }
+
+    /* 6.3. Cuadrícula de Consolas (Console Grid) */
+    .console-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .console-tile {
+      background: #0b0e1b;
+      border: 1px solid #1c2742;
+      border-radius: 6px;
+      padding: 10px 8px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      transition: 0.2s;
+    }
+
+    .console-tile:hover {
+      border-color: var(--tile-color, #00f0ff);
+      box-shadow: 0 0 10px var(--tile-color, #00f0ff);
+      transform: translateY(-2px);
+    }
+
+    .console-tile svg {
+      width: 100%;
+      height: 34px;
+      filter: drop-shadow(0 0 5px var(--tile-color, #00f0ff));
+    }
+
+    .console-tile .count {
+      font-size: 0.6rem;
+      color: var(--text-dim);
+    }
+
+    /* 6.4. Listado Desplegable de Títulos (Games List) */
+    .games-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 460px;
+      overflow-y: auto;
+      padding-right: 5px;
+    }
+
+    .game-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #0b0e1b;
+      border: 1px solid #1c2742;
+      padding: 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: 0.2s;
+      position: relative;
+    }
+
+    .game-item:hover, .game-item.active {
+      border-color: var(--primary-neon);
+      background: #141c33;
+    }
+
+    .game-item img {
+      width: 35px;
+      height: 35px;
+      object-fit: contain;
+      border-radius: 3px;
+      background: #000;
+      image-rendering: pixelated;
+    }
+
+    .game-item-title {
+      font-size: 0.72rem;
+      color: var(--text-main);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex: 1;
+    }
+
+    .game-item-fav {
+      color: var(--secondary-neon);
+      font-size: 0.8rem;
+    }
+
+    .game-item-pct {
+      font-size: 0.58rem;
+      color: var(--accent-green);
+    }
+
+    .empty-note {
+      color: var(--text-dim);
+      font-size: 0.7rem;
+      text-align: center;
+      padding: 20px 6px;
+      line-height: 1.5;
+    }
+
+    /* 7. PANEL DE DETALLES DEL JUEGO (FICHA HERO CENTRAL) */
+    .content-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .game-hero {
+      display: flex;
+      gap: 20px;
+      background: var(--panel-bg);
+      border: 1px solid #1c2742;
+      padding: 20px;
+      border-radius: 6px;
+      flex-wrap: wrap;
+      align-items: flex-start;
+    }
+
+    /* 7.1. Contenedor de Carátula Giratoria e Imagen Base */
+    .cover-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      width: 170px;
+    }
+
+    .cover-shell {
+      position: relative;
+      width: 100%;
+    }
+
+    .boxart-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #000;
+      border: 2px solid var(--primary-neon);
+      border-radius: 6px;
+      padding: 4px;
+      box-shadow: 0 0 12px rgba(0, 240, 255, 0.2);
+      width: 100%;
+      height: 230px;
+      overflow: hidden;
+      transition: all 0.2s ease;
+    }
+
+    .boxart-container img {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      display: block;
+      border-radius: 4px;
+      object-fit: contain;
+    }
+
+    /* 7.2. Botón Flotante de Favoritos */
+    .fav-heart {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      z-index: 12;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.75);
+      border: 1px solid var(--secondary-neon);
+      color: var(--secondary-neon);
+      font-size: 1.05rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .fav-heart:hover {
+      transform: scale(1.12);
+      box-shadow: 0 0 12px var(--secondary-neon);
+    }
+
+    .fav-heart.active {
+      background: var(--secondary-neon);
+      color: #fff;
+      box-shadow: 0 0 16px var(--secondary-neon);
+      animation: heartPop 0.35s ease;
+    }
+
+    /* 7.3. Emblema Neón Nativo de Consola */
+    .under-cover-icons {
+      position: relative;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 12px 10px;
+      border-radius: 6px;
+      min-height: 64px;
+      background-color: var(--console-bg, rgba(0,240,255,0.15));
+      border: 2px solid var(--console-color, #00f0ff);
+      box-shadow: 0 0 15px var(--console-color, #00f0ff), inset 0 0 10px var(--console-color, #00f0ff);
+      transition: all 0.4s ease-in-out;
+      overflow: hidden;
+    }
+
+    #icon-console-svg {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #icon-console-svg svg {
+      width: 100%;
+      height: 44px;
+      filter: drop-shadow(0 0 6px var(--console-color, #00f0ff));
+    }
+
+    /* 7.4. Bloque de Etiquetas Informativas */
+    .game-details {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .badge-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .badge-console-original {
+      background: var(--secondary-neon);
+      color: #fff;
+      font-size: 0.68rem;
+      padding: 4px 10px;
+      font-weight: bold;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+
+    .badge-info {
+      background: #18233c;
+      border: 1px solid #2c3e66;
+      color: var(--text-main);
+      font-size: 0.62rem;
+      padding: 4px 8px;
+      border-radius: 3px;
+    }
+
+    /* 7.5. Título Dinámico del Juego Seleccionado */
+    .game-title-text {
+      font-size: 1.4rem;
+      color: #fff;
+      line-height: 1.2;
+      text-shadow: 0 0 5px rgba(0,240,255,0.3);
+    }
+
+    /* 7.6. Detalles de Metadatos de Publicación */
+    .game-meta-details {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      background: rgba(0,0,0,0.3);
+      padding: 8px 12px;
+      border-radius: 4px;
+      border-left: 2px solid var(--primary-neon);
+    }
+
+    .game-meta-details span strong {
+      color: var(--primary-neon);
+    }
+
+    /* 7.7. Barra de Progreso y Porcentaje de Desbloqueo */
+    .progress-bar {
+      height: 14px;
+      background: #000;
+      border: 1px solid #253356;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-top: 5px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--accent-green);
+      transition: width 0.5s ease;
+    }
+
+    /* 7.8. Bloque de Texto Histórico / Sinopsis de Argumento */
+    .game-description-box {
+      margin-top: 8px;
+      background: rgba(11,14,27,0.8);
+      border: 1px solid #1c2742;
+      border-radius: 4px;
+      padding: 10px 12px;
+      font-size: 0.72rem;
+      color: #b0c4de;
+      line-height: 1.5;
+      max-height: 120px;
+      overflow-y: auto;
+    }
+
+    .game-description-box strong {
+      color: var(--primary-neon);
+      display: block;
+      margin-bottom: 4px;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* 8. ÁLBUM DE RECOMPENSAS DIGITALES */
+    .controls-section {
+      width: 100%;
+    }
+
+    .achievements-section {
+      width: 100%;
+    }
+
+    /* 8.2. Rejilla del Álbum Dinámico */
+    .achievements-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 15px;
+    }
+
+    /* 8.3. Tarjetas con Efecto de Giro 3D */
+    .card-3d-wrapper {
+      width: 100%;
+      height: 170px;
+      perspective: 1000px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .card-3d-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.6s cubic-bezier(0.4,0,0.2,1);
+      transform-style: preserve-3d;
+      border-radius: 8px;
+    }
+
+    .card-3d-wrapper.flipped .card-3d-inner {
+      transform: rotateY(180deg);
+    }
+
+    .card-face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 2px solid #1c2742;
+    }
+
+    .card-front {
+      background: #0b0e1b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-front img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      display: block;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      transform: scale(1.02);
+    }
+
+    .card-3d-wrapper.unlocked .card-front {
+      border-color: var(--theme-color);
+      box-shadow: 0 0 10px var(--theme-color);
+    }
+
+    .card-3d-wrapper.locked .card-front {
+      opacity: 0.5;
+      filter: grayscale(100%);
+    }
+
+    .card-back {
+      background: linear-gradient(135deg, #090c19 0%, #151b2e 100%);
+      border-color: var(--theme-color);
+      color: #fff;
+      transform: rotateY(180deg);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 10px;
+      overflow: hidden;
+    }
+
+    .card-back h4 {
+      font-size: 0.7rem;
+      color: var(--theme-color);
+      margin-bottom: 4px;
+      line-height: 1.1;
+    }
+
+    .card-back p {
+      font-size: 0.6rem;
+      color: var(--text-main);
+      line-height: 1.25;
+      overflow-y: auto;
+      max-height: 60px;
+      word-break: break-word;
+    }
+
+    .card-back .points-badge {
+      font-size: 0.55rem;
+      background: rgba(0,0,0,0.6);
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid var(--theme-color);
+      color: var(--theme-color);
+    }
+
+    /* 8.4. Barra de Progreso Numérico de Logros con Máscaras */
+    .achievement-num-progress {
+      margin-top: 4px;
+      padding-top: 4px;
+      border-top: 1px dashed rgba(0,240,255,0.3);
+      font-size: 0.62rem;
+      font-weight: bold;
+      color: var(--primary-neon);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .num-bar-bg {
+      width: 100%;
+      height: 4px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .num-bar-fill {
+      height: 100%;
+      background: var(--primary-neon);
+      width: 0%;
+    }
+
+    /* 9. PANTALLA DE ESTADÍSTICAS GLOBALES */
+    #screen-stats {
+      position: fixed;
+      inset: 0;
+      background: var(--bg-color);
+      z-index: 150;
+      overflow-y: auto;
+      padding: 20px;
+      display: none;
+    }
+
+    #screen-stats.active {
+      display: block;
+    }
+
+    .stats-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .stats-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .stats-head h2 {
+      color: var(--primary-neon);
+      font-size: 1.2rem;
+      letter-spacing: 1px;
+    }
+
+    /* 9.2. Tarjetas de Métricas individuales (Stat Cards) */
+    .stats-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px,1fr));
+      gap: 12px;
+    }
+
+    .stat-card {
+      background: var(--panel-bg);
+      border: 1px solid #1c2742;
+      border-radius: 8px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .stat-card .num {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--primary-neon);
+      text-shadow: 0 0 10px rgba(0,240,255,0.4);
+    }
+
+    .stat-card.green .num {
+      color: var(--accent-green);
+      text-shadow: 0 0 10px rgba(0,230,118,0.4);
+    }
+
+    .stat-card.pink .num {
+      color: var(--secondary-neon);
+      text-shadow: 0 0 10px rgba(255,0,85,0.4);
+    }
+
+    .stat-card .lbl {
+      font-size: 0.62rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 4px;
+    }
+
+    /* 9.3. Barras de Desempeño y Metas de Puntuación */
+    .stats-bar-block {
+      background: var(--panel-bg);
+      border: 1px solid #1c2742;
+      border-radius: 8px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .stat-bar-row .stat-bar-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.7rem;
+      margin-bottom: 5px;
+      color: var(--text-main);
+    }
+
+    .big-bar {
+      height: 18px;
+      background: #000;
+      border: 1px solid #253356;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .big-bar-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 10px;
+      transition: width 0.8s ease;
+    }
+
+    /* 9.4. Mosaico General de Colección */
+    .mosaic {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px,1fr));
+      gap: 10px;
+    }
+
+    .mosaic-item {
+      background: #0b0e1b;
+      border: 1px solid #1c2742;
+      border-radius: 6px;
+      padding: 8px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .mosaic-item img {
+      width: 40px;
+      height: 40px;
+      border-radius: 4px;
+      object-fit: contain;
+      background: #000;
+      image-rendering: pixelated;
+      flex: 0 0 auto;
+    }
+
+    .mosaic-meta {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .mosaic-title {
+      font-size: 0.6rem;
+      color: var(--text-main);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .mosaic-bar {
+      height: 6px;
+      background: #000;
+      border-radius: 3px;
+      overflow: hidden;
+      margin-top: 5px;
+    }
+
+    .mosaic-fill {
+      height: 100%;
+      background: var(--accent-green);
+      width: 0%;
+    }
+
+    .mosaic-pct {
+      font-size: 0.55rem;
+      color: var(--text-dim);
+      margin-top: 3px;
+    }
+
+    /* 10. ANIMACIONES NATIVAS Y EFECTOS DE ILUMINACIÓN */
+    .cyber-loader {
+      position: fixed;
+      inset:0;
+      background: rgba(7,9,19,0.9);
+      z-index: 300;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      color: var(--primary-neon);
+    }
+
+    .spinner {
+      width: 35px;
+      height: 35px;
+      border: 3px solid transparent;
+      border-top-color: var(--primary-neon);
+      border-bottom-color: var(--secondary-neon);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes heartPop {
+      0% { transform: scale(0.6); }
+      60% { transform: scale(1.25); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes rgbGlow {
+      0% { filter: hue-rotate(0deg) brightness(1); }
+      50% { filter: hue-rotate(180deg) brightness(1.5); }
+      100% { filter: hue-rotate(360deg) brightness(1); }
+    }
+  </style>
+</head>
+<body>
+
+<div id="app">
+  
+  <!-- ===== SECCIÓN: 3. INTERFAZ LOGIN ===== -->
+  <div id="screen-login" class="screen active">
+    <div class="cyber-card">
+      <h1 class="glitch-title">RETRO HYPNOS</h1>
+      <p class="subtitle">BIBLIOTECA DE LOGROS Y CONSOLAS</p>
+
+      <div class="input-group">
+        <label>USUARIO DE RETROACHIEVEMENTS</label>
+        <input type="text" id="username" placeholder="Tu usuario..." autocomplete="username">
+      </div>
+
+      <div class="input-group">
+        <label>WEB API KEY</label>
+        <input type="password" id="apiKey" placeholder="Tu Web API Key..." autocomplete="current-password">
+      </div>
+
+      <button id="btn-login" class="btn-cyber">ACCEDER AL SISTEMA</button>
+      <p class="login-hint">Encuentra tu <strong>Web API Key</strong> en tu perfil de RetroAchievements &rarr; Settings &rarr; Keys. Se guarda solo en tu dispositivo.</p>
+    </div>
+  </div>
+
+  <!-- ===== SECCIÓN: INTERFAZ DASHBOARD PRINCIPAL =====
+    * 4. CABECERA CONTROL REMOTO (HEADER GENERAL, USUARIO, ICONOS PS)
+    * 6. MAIN GRID (ZONA DE INTERMEDIACIÓN DE CONTENIDOS)
+    * 6.1. SIDEBAR PANEL (FILTROS DE MARCAS Y HISTORIAL CONSOLAS)
+  ====================================================== -->
+  <div id="screen-dashboard" class="screen">
+    
+    <!-- 4. CABECERA CONTROL REMOTO -->
+    <header class="cyber-header">
+      <div class="user-profile">
+        <span class="status-dot"></span>
+        <span id="user-display">USUARIO</span>
+      </div>
+
+      <div class="header-actions">
+        <div class="ps-controller-btn" id="btn-open-drawer" title="Opciones" role="button" tabindex="0">
+          <span class="ps-symbol ps-square">&#9632;</span>
+          <span class="ps-symbol ps-cross">&#10006;</span>
+          <span class="ps-symbol ps-circle">&#9679;</span>
+          <span class="ps-symbol ps-triangle">&#9650;</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 6. MALLA PRINCIPAL RECOLECTORA -->
+    <div class="main-grid">
+      
+      <!-- 6.1. PANEL FILTROS LATERALES (ASIDE) -->
+      <aside class="sidebar-panel">
+        <h3>&#127918; FILTRAR POR MARCA</h3>
+        <!-- 6.2. BARRA DE MARCAS INTEGRADAS (CHIPS CORPORATIVOS) -->
+        <div id="brand-bar" class="brand-bar"></div>
+
+        <div id="history-panel">
+          <!-- 6.3. CUADRÍCULA DE CONSOLAS (TILES INTERACTIVOS / HISTORIAL) -->
+          <h3 id="history-title">&#128190; CONSOLAS</h3>
+          <div id="history-content"></div>
+        </div>
+      </aside>
+
+      <!-- 7. PANEL DE DETALLES DEL JUEGO Y ÁLBUM CENTRAL (MAIN) -->
+      <main class="content-panel">
+        
+        <!-- 7. FICHA DETALLADA HERO CENTRAL -->
+        <section class="game-hero">
+          
+          <!-- SUB-INDICE ENTRADAS CABECERA JUEGO -->
+          <!-- 7.1. CONTENEDOR DE CARÁTULA GIRATORIA (SHELL & BOXART) -->
+          <div class="cover-wrapper">
+            <div class="cover-shell">
+              <div class="boxart-container" id="boxart-clickable">
+                <img id="game-boxart" src="" alt="Carátula del juego" crossorigin="anonymous" />
+              </div>
+              <!-- 7.2. BOTÓN FLOTANTE DE FAVORITOS (FAV HEART) -->
+              <div id="fav-heart" class="fav-heart">&#10084;</div>
+            </div>
+
+            <!-- 7.3. EMBLEMA NEÓN NATIVO DE CONSOLA (UNDER COVER CONTAINER) -->
+            <div class="under-cover-icons" id="neon-container">
+              <div id="icon-console-svg"></div>
+            </div>
+          </div>
+
+          <!-- 7.4. BLOQUE DE ETIQUETAS INFORMATIVAS Y METADATOS -->
+          <div class="game-details">
+            <div class="badge-container">
+              <span id="game-console-badge" class="badge-console-original">CONSOLA</span>
+              <span id="game-genre" class="badge-info">GÉNERO: -</span>
+              <span id="game-released" class="badge-info">AÑO: -</span>
+              <span id="game-language" class="badge-info">IDIOMA: Español/Inglés</span>
+              <span id="game-regional" class="badge-info">REGIONAL: Global</span>
+              <span id="game-misc" class="badge-info">MISC: Oficial</span>
+            </div>
+
+            <!-- 7.5. TÍTULO DINÁMICO DEL JUEGO SELECCIONADO -->
+            <h2 id="game-title" class="game-title-text">SELECCIONA UN JUEGO</h2>
+
+            <!-- 7.6. DETALLES DE METADATOS DE PUBLICACIÓN -->
+            <div class="game-meta-details">
+              <span><strong>DESARROLLADOR:</strong> <span id="game-developer">-</span></span>
+              <span><strong>EDITOR:</strong> <span id="game-publisher">-</span></span>
+            </div>
+
+            <!-- 7.7. BARRA DE PROGRESO Y PORCENTAJE DE DESBLOQUEO -->
+            <div class="progress-container">
+              <div id="progress-text" style="font-size: 0.8rem; font-weight: bold; color: var(--primary-neon);">0 / 0 LOGROS (0%)</div>
+              <div class="progress-bar">
+                <div id="progress-bar-fill" class="progress-fill"></div>
+              </div>
+            </div>
+
+            <!-- 7.8. BLOQUE DE TEXTO HISTÓRICO / SINOPSIS DE ARGUMENTO -->
+            <div class="game-description-box">
+              <strong>&#128214; HISTORIA / ARGUMENTO</strong>
+              <div id="game-description-text">Selecciona un juego para ver su historia...</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 8.1. BARRA BUSQUEDA LOGROS (SEARCH INPUT) -->
+        <section class="controls-section">
+          <input type="text" id="search-input" placeholder="&#128269; BUSCAR LOGRO POR NOMBRE O DESCRIPCIÓN..." />
+        </section>
+
+        <!-- 8.2. ÁLBUM DINÁMICO DE RECOMPENSAS DIGITALES (GRID) -->
+        <section class="achievements-section">
+          <h3 style="font-size: 0.9rem; color: var(--primary-neon); margin-bottom: 12px;">&#127924; ÁLBUM DE LOGROS</h3>
+          <div id="grid" class="achievements-grid"></div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- ===== SECCIÓN: 9. PANTALLA ESTADÍSTICAS GLOBALES ===== -->
+  <div id="screen-stats">
+    <div class="stats-wrap">
+      <!-- 9.1. CABECERA VOLVER (HEAD WRAP) -->
+      <div class="stats-head">
+        <h2>&#128202; TU PROGRESO COMPLETO</h2>
+        <button class="nav-back" id="btn-close-stats">&#8592; VOLVER</button>
+      </div>
+      <!-- 9.2. TARJETAS DE MÉRICAS NUMÉRICAS INDIVIDUALES -->
+      <div class="stats-cards" id="stats-cards"></div>
+      <!-- 9.3. BARRAS DE DESEMPEÑO Y METAS DE PUNTUACIÓN -->
+      <div class="stats-bars" id="stats-bars" style="display: flex; flex-direction: column; gap: 14px;"></div>
+      <!-- 9.4. MOSAICO GENERAL DE COLECCIÓN (MINI COVERS) -->
+      <div>
+        <h3 style="color: var(--primary-neon); font-size: 0.9rem; margin-bottom: 10px;">&#127918; MOSAICO DE JUEGOS</h3>
+        <div class="mosaic" id="stats-mosaic"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECCIÓN: 5. CONFIGURACIONES LATERAL DESLIZABLE (DRAWER OVERLAY) ===== -->
+  <div id="drawer-overlay" class="side-drawer-overlay"></div>
+  <aside id="side-drawer" class="side-drawer">
+    <div class="drawer-header">
+      <h3 class="drawer-title">&#9881; CONFIGURACIÓN</h3>
+      <button id="btn-close-drawer" class="drawer-close-btn">&#10006;</button>
+    </div>
+
+    <div class="drawer-menu-list">
+      <div class="drawer-section-label">Navegación</div>
+      <button id="btn-stats" class="btn-cyber-sec">&#128202; TU PROGRESO COMPLETO</button>
+      <button id="btn-fav-filter" class="btn-cyber-sec" style="border-color: var(--secondary-neon); color: var(--secondary-neon);">&#10084; JUEGOS FAVORITOS</button>
+
+      <div class="drawer-section-label">Logros Multimedia</div>
+      <div class="multimedia-placeholder">
+        &#127909; <strong>Logros Multimedia</strong><br>
+        Espacio reservado para vídeos, clips y capturas asociadas a tus logros.<br>
+        <em>(Próximamente)</em>
+      </div>
+
+      <div class="drawer-section-label">Aplicación</div>
+      <button id="btn-logout" class="btn-cyber-sec" style="border-color: var(--secondary-neon); color: var(--secondary-neon);">&#128682; CERRAR SESIÓN</button>
+    </div>
+  </aside>
+
+  <!-- 10. PANTALLA CARGA ACTIVADA EN LLAMADAS API (LOADER) -->
+  <div id="loading" class="cyber-loader" style="display:none;">
+    <div class="spinner"></div>
+    <p id="loading-text">CARGANDO BIBLIOTECA...</p>
+  </div>
+</div>
+
+<!-- ===== ÍNDICE DETALLADO DE SCRIPT JAVASCRIPT =====
+  1. CONFIGURACIONES NATIVAS Y VECTORES CONSOLAS (BRAND & LOGOS)
+  2. SISTEMA DE AUTENTICACIÓN Y ARRANQUE DE SESIÓN (LOCALSTORAGE CHECK)
+  3. CONTROLADORES SIDE-DRAWER MENÚ INTERACTIVO
+  4. INTERCONEXIÓN API RETROACHIEVEMENTS (FUSIÓN DE RECIENTES Y COMPLETADOS)
+  5. FILTROS Y RENDERS POR NIVELES (MARCAS, TILES CONSOLAS, HISTORIAL JUEGOS)
+  6. SINOPSIS & TRADUCCIONES DE WIKIPEDIA (API REST WIKIMEDIA & GOOGLE TRANSLATE)
+  7. MANIPULACIÓN DETALLES JUEGO & GESTOR LOCAL DE FAVORITOS (HEART BEAT ACTIONS)
+  8. MOTOR ÁLBUM LOGROS (DETECCIÓN DE MÁSCARAS DE PROGRESO NUMÉRICO, FLIP 3D Y TRADUCTOR)
+  9. CÁLCULO ESTADÍSTICO GLOBAL & RENDERIZADO MOSAICO JUEGOS
+=========================================== -->
+<script>
+/* 1. CONFIGURACIONES NATIVAS Y VECTORES CONSOLAS (BRAND & LOGOS) */
+let userGlobal = '';
+let apiKeyGlobal = '';
+let historialJuegos = [];
+let todosLosLogros = [];
+let juegoActualID = null;
+let juegoActualConsola = '';
+let favoritos = new Set(JSON.parse(localStorage.getItem('ra_favoritos') || '[]'));
+let userSummary = null;
+
+let currentBrand = 'ALL';
+let currentConsoleKey = null;
+let navLevel = 1; 
+
+function svgWrap(inner, vb) {
+  return '<svg viewBox="' + (vb || '0 0 260 64') + '" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">' + inner + '</svg>';
+}
+function esc(t){ return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function wordmark(text, color, sub) {
+  text = String(text).toUpperCase();
+  var len = text.length;
+  var size = len > 14 ? 20 : len > 10 ? 26 : len > 6 ? 32 : 38;
+  var y = sub ? 34 : 40;
+  var inner = '<text x="130" y="' + y + '" text-anchor="middle" font-family="Arial Black, Impact, sans-serif" font-weight="900" font-size="' + size + '" fill="' + color + '" letter-spacing="1">' + esc(text) + '</text>';
+  if (sub) inner += '<text x="130" y="56" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="13" fill="' + color + '" opacity="0.75" letter-spacing="3">' + esc(sub) + '</text>';
+  return svgWrap(inner);
+}
+
+function brandLogo(brand) {
+    var b = String(brand || '').toUpperCase();
+    var fileName = '';
+
+    switch (b) {
+        case 'SONY':      fileName = 'sony.png'; break;
+        case 'NINTENDO':  fileName = 'nintendo.png'; break;
+        case 'SEGA':      fileName = 'sega.png'; break;
+        case 'ATARI':     fileName = 'atari.png'; break;
+        case 'SNK':       fileName = 'snk.png'; break;
+        case 'MICROSOFT': fileName = 'microsoft.png'; break;
+        case 'NEC':       fileName = 'nec.png'; break;
+        case 'SHARP':     fileName = 'sharp.png'; break;
+        case 'FUJITSU':   fileName = 'fujitsu.png'; break;
+        case 'NOKIA':     fileName = 'nokia.png'; break;
+        case 'PHILLIPS':  fileName = 'phillips.png'; break;
+        case 'BANDAI':    fileName = 'bandai.png'; break;
+        case 'COMMODORE': fileName = 'commodore.png'; break;
+        default: return wordmark(brand || 'RETRO', '#00f0ff');
+    }
+
+    return '<img src="assets/companies/' + fileName + '" alt="' + esc(b) + '" style="max-height: 28px; max-width: 100%; object-fit: contain;">';
+}
+
+const BRAND_META = {
+  ALL:       { label: 'TODAS',  color: '#00f0ff' },
+  SONY:      { label: 'Sony',   color: '#7aa2ff' },
+  NINTENDO:  { label: 'Nintendo', color: '#e60012' },
+  SEGA:      { label: 'SEGA',   color: '#1e73ff' },
+  ATARI:     { label: 'Atari',  color: '#e4002b' },
+  SNK:       { label: 'SNK',    color: '#ffb300' },
+  MICROSOFT: { label: 'Xbox',   color: '#107c10' },
+  NEC:       { label: 'NEC',    color: '#ff7a00' },
+  OTHER:     { label: 'Otras',  color: '#8b5cf6' }
+};
+
+const CONSOLE_RULES = [
+  { m: /playstation\s*2|\bps2\b/i,               key:'PS2',   label:'PlayStation 2', brand:'SONY',   color:'#0066ff', file:'ps2.png' },
+  { m: /playstation\s*3|\bps3\b/i,               key:'PS3',   label:'PlayStation 3', brand:'SONY',   color:'#c0c8dd', file:'ps3.png' },
+  { m: /playstation\s*portable|\bpsp\b/i,        key:'PSP',   label:'PSP',           brand:'SONY',   color:'#00f0ff', file:'psp.png' },
+  { m: /playstation\s*vita|ps\s*vita|\bvita\b/i, key:'VITA',  label:'PS Vita',       brand:'SONY',   color:'#00aaff', file:'psvita.png' },
+  { m: /playstation|\bps1\b|\bpsx\b/i,           key:'PS1',   label:'PlayStation',   brand:'SONY',   color:'#ff3300', file:'psx.png' },
+  { m: /super\s*nintendo|\bsnes\b|super\s*famicom/i, key:'SNES', label:'Super NES', brand:'NINTENDO', color:'#8b5cf6', file:'snes.png' },
+  { m: /nintendo\s*64|\bn64\b/i,                 key:'N64',   label:'Nintendo 64',   brand:'NINTENDO', color:'#00e676', file:'n64.png' },
+  { m: /gamecube|\bngc\b|\bgcn\b/i,              key:'GC',    label:'GameCube',      brand:'NINTENDO', color:'#6f42c1', file:'gamecube.png' },
+  { m: /game\s*boy\s*advance|\bgba\b/i,          key:'GBA',   label:'Game Boy Adv.', brand:'NINTENDO', color:'#9d00ff', file:'gba.png' },
+  { m: /game\s*boy\s*color|\bgbc\b/i,            key:'GBC',   label:'Game Boy Color',brand:'NINTENDO', color:'#ffb000', file:'gbc.png' },
+  { m: /game\s*boy/i,                            key:'GB',    label:'Game Boy',      brand:'NINTENDO', color:'#9bbc0f', file:'gb.png' },
+  { m: /nintendo\s*ds|\bnds\b/i,                 key:'DS',    label:'Nintendo DS',   brand:'NINTENDO', color:'#38b6ff', file:'nds.png' },
+  { m: /\b3ds\b/i,                               key:'3DS',   label:'Nintendo 3DS',  brand:'NINTENDO', color:'#ce181e', file:'nintendo-3ds.png' },
+  { m: /virtual\s*boy/i,                         key:'VB',    label:'Virtual Boy',   brand:'NINTENDO', color:'#ff1a1a', file:'vb.png' },
+  { m: /pokemon\s*mini/i,                        key:'PKM',   label:'Pokémon Mini',  brand:'NINTENDO', color:'#ffcc00', file:'pkm.png' },
+  { m: /\bwii\b/i,                               key:'WII',   label:'Wii',           brand:'NINTENDO', color:'#00b7eb', file:'wii.png' },
+  { m: /wii\s*u/i,                               key:'WIIU',  label:'Wii U',         brand:'NINTENDO', color:'#00b7eb', file:'wii-u.png' },
+  { m: /famicom/i,                               key:'NES',   label:'Famicom',       brand:'NINTENDO', color:'#e60012', file:'nes.png' },
+  { m: /\bnes\b|nintendo\s*entertainment/i,      key:'NES',   label:'NES',           brand:'NINTENDO', color:'#e60012', file:'nes.png' },
+  { m: /mega\s*drive|genesis/i,                  key:'GEN',   label:'Genesis / MD',  brand:'SEGA',   color:'#1e73ff', file:'megadrive.png' },
+  { m: /master\s*system/i,                       key:'SMS',   label:'Master System', brand:'SEGA',   color:'#d0021b', file:'master-system.png' },
+  { m: /game\s*gear/i,                           key:'GG',    label:'Game Gear',     brand:'SEGA',   color:'#1b6ec2', file:'game-gear.png' },
+  { m: /saturn/i,                                key:'SAT',   label:'Saturn',        brand:'SEGA',   color:'#c0c8dd', file:'sega-saturn.png' },
+  { m: /dreamcast/i,                             key:'DC',    label:'Dreamcast',     brand:'SEGA',   color:'#ff6a00', file:'dreamcast.png' },
+  { m: /sega\s*cd|mega\s*cd/i,                    key:'SCD',   label:'Sega CD',       brand:'SEGA',   color:'#1e73ff', file:'sega-cd.png' },
+  { m: /32x/i,                                   key:'32X',   label:'Sega 32X',      brand:'SEGA',   color:'#1e73ff', file:'sega-32x.png' },
+  { m: /sg-?1000/i,                              key:'SG',    label:'SG-1000',       brand:'SEGA',   color:'#1e73ff', file:'sg-1000.png' },
+  { m: /atari\s*2600|\b2600\b/i,                 key:'A2600', label:'Atari 2600',    brand:'ATARI',  color:'#e4002b', file:'atari-2600.png' },
+  { m: /atari\s*7800|\b7800\b/i,                 key:'A7800', label:'Atari 7800',    brand:'ATARI',  color:'#e4002b', file:'atari-7800.png' },
+  { m: /lynx/i,                                  key:'LYNX',  label:'Atari Lynx',    brand:'ATARI',  color:'#ffcc00', file:'atari-lynx.png' },
+  { m: /jaguar/i,                                key:'JAG',   label:'Atari Jaguar',  brand:'ATARI',  color:'#cc0000', file:'atari-jaguar-cd.png' },
+  { m: /atari\s*st/i,                            key:'AST',   label:'Atari ST',      brand:'ATARI',  color:'#e4002b', file:'atari-st.png' },
+  { m: /atari/i,                                 key:'ATARI', label:'Atari',         brand:'ATARI',  color:'#e4002b', file:'atari-2600.png' },
+  { m: /neo\s*geo\s*pocket/i,                    key:'NGP',   label:'Neo Geo Pocket',brand:'SNK',    color:'#ffb300', file:'ngp.png' },
+  { m: /neo\s*geo/i,                             key:'NEO',   label:'Neo Geo',       brand:'SNK',    color:'#ffb300', file:'neogeo.png' },
+  { m: /xbox/i,                                  key:'XBOX',  label:'Xbox',          brand:'MICROSOFT', color:'#107c10', file:'xbox.png' },
+  { m: /pc\s*engine|turbo\s*grafx|turbografx|pc-?fx/i, key:'PCE', label:'PC Engine', brand:'NEC',  color:'#ff7a00', file:'pce.png' },
+  { m: /x68000|sharp/i,                          key:'SHARP', label:'Sharp X68000',  brand:'SHARP',  color:'#00f0ff', file:'x68000.png' },
+  { m: /fm-?towns|marty/i,                       key:'FMT',   label:'FM Towns',      brand:'FUJITSU',color:'#ff5500', file:'fmtowns.png' },
+  { m: /ngage|n-gage/i,                          key:'NGAGE', label:'N-Gage',        brand:'NOKIA',  color:'#a3e635', file:'ngage.png' },
+  { m: /cd-?i|cd\s*i/i,                          key:'CDI',   label:'Philips CD-i',  brand:'PHILLIPS',color:'#38b6ff', file:'cdi.png' },
+  { m: /wonderswan|wsc|wanswan/i,                key:'WS',    label:'WonderSwan',    brand:'BANDAI', color:'#5a7d9a', file:'wonderswan.png' },
+  { m: /c64|commodore\s*64|amiga/i,              key:'C64',   label:'Commodore 64',  brand:'COMMODORE',color:'#e60012', file:'c64.png' },
+  { m: /cps1/i,                                  key:'CPS1',  label:'CPS-1',         brand:'OTHER',  color:'#ff00aa', file:'cps1.png' },
+  { m: /cps2/i,                                  key:'CPS2',  label:'CPS-2',         brand:'OTHER',  color:'#ff00aa', file:'cps2.png' },
+  { m: /cps3/i,                                  key:'CPS3',  label:'CPS-3',         brand:'OTHER',  color:'#ff00aa', file:'cps3.png' },
+  { m: /arcade|mame|neo\s*geo\s*mvs/i,           key:'ARC',   label:'Arcade',        brand:'OTHER',  color:'#ff00aa', file:'arcade.png' },
+  { m: /\bdos\b|ms-?dos/i,                        key:'DOS',   label:'MS-DOS',        brand:'OTHER',  color:'#00e676', file:'msdos.png' },
+  { m: /colecovision/i,                          key:'COL',   label:'ColecoVision',  brand:'OTHER',  color:'#e4002b', file:'colecovision.png' },
+  { m: /intellivision/i,                         key:'INT',   label:'Intellivision', border:'OTHER',  color:'#c8a24b', file:'intellivision.png' },
+  { m: /vectrex/i,                               key:'VEC',   label:'Vectrex',       brand:'OTHER',  color:'#00f0ff', file:'vectrex.png' },
+  { m: /msx/i,                                   key:'MSX',   label:'MSX',           brand:'OTHER',  color:'#8b5cf6', file:'msx.png' },
+  { m: /odyssey/i,                               key:'ODY',   label:'Odyssey 2',     brand:'OTHER',  color:'#8b5cf6', file:'odyssey.png' },
+  { m: /arduboy/i,                               key:'ARD',   label:'Arduboy',       brand:'OTHER',  color:'#00e676', file:'arduboy.png' },
+  { m: /3do/i,                                   key:'3DO',   label:'3DO',           brand:'OTHER',  color:'#c0c8dd', file:'3do.png' }
+];
+
+function getConsoleInfo(name) {
+  var n = String(name || '').trim();
+  for (var i = 0; i < CONSOLE_RULES.length; i++) {
+    if (CONSOLE_RULES[i].m.test(n)) {
+      var r = CONSOLE_RULES[i];
+      return { 
+        key: r.key, 
+        label: r.label, 
+        brand: r.brand, 
+        color: r.color, 
+        file: r.file ? 'assets/consoles/' + r.file : null, 
+        raw: n 
+      };
+    }
+  }
+  return { key: 'OTHER', label: n || 'Consola', brand: 'OTHER', color: '#00f0ff', file: null, raw: n };
+}
+
+function hexToRgba(hex, a) {
+  var h = hex.replace('#','');
+  if (h.length === 3) h = h.split('').map(function(c){return c+c;}).join('');
+  var r = parseInt(h.substring(0,2),16), g = parseInt(h.substring(2,4),16), b = parseInt(h.substring(4,6),16);
+  return 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')';
+}
+
+function actualizarLogoVectorialConsola(consoleName) {
+  var info = getConsoleInfo(consoleName);
+  var container = document.getElementById('neon-container');
+  var svgHolder = document.getElementById('icon-console-svg');
+
+  container.style.setProperty('--console-color', info.color);
+  container.style.setProperty('--console-bg', hexToRgba(info.color, 0.18));
+
+  if (info.file) {
+    svgHolder.innerHTML = '<img src="' + info.file + '" alt="' + esc(info.label) + '" style="max-height: 50px; max-width: 100%; object-fit: contain;">';
+  } else {
+    svgHolder.innerHTML = wordmark(info.label, info.color);
+  }
+
+  document.documentElement.style.setProperty('--theme-color', info.color);
+}
+
+function showLoader(show, text) {
+  var l = document.getElementById('loading');
+  if (text) document.getElementById('loading-text').innerText = text;
+  l.style.display = show ? 'flex' : 'none';
+}
+
+/* 2. SISTEMA DE AUTENTICACIÓN Y ARRANQUE DE SESIÓN */
+document.addEventListener('DOMContentLoaded', function () {
+  var savedUser = localStorage.getItem('ra_user');
+  var savedKey = localStorage.getItem('ra_key');
+  if (savedUser && savedKey) {
+    document.getElementById('username').value = savedUser;
+    document.getElementById('apiKey').value = savedKey;
+    iniciarSesion(savedUser, savedKey);
+  }
+});
+
+document.getElementById('btn-login').addEventListener('click', function () {
+  var user = document.getElementById('username').value.trim();
+  var apiKey = document.getElementById('apiKey').value.trim();
+  if (!user || !apiKey) { alert('Ingresa tu Usuario y Web API Key.'); return; }
+  iniciarSesion(user, apiKey);
+});
+
+function iniciarSesion(user, apiKey) {
+  userGlobal = user;
+  apiKeyGlobal = apiKey;
+  localStorage.setItem('ra_user', user);
+  localStorage.setItem('ra_key', apiKey);
+
+  document.getElementById('user-display').innerText = userGlobal;
+  document.getElementById('screen-login').classList.remove('active');
+  document.getElementById('screen-dashboard').classList.add('active');
+
+  showLoader(true, 'OBTENIENDO HISTORIAL COMPLETO...');
+  cargarHistorialCompleto();
+}
+
+/* 3. CONTROLADORES SIDE-DRAWER MENÚ */
+var drawerEl = document.getElementById('side-drawer');
+var overlayEl = document.getElementById('drawer-overlay');
+function toggleDrawer(open) {
+  drawerEl.classList.toggle('active', open);
+  overlayEl.classList.toggle('active', open);
+}
+document.getElementById('btn-open-drawer').addEventListener('click', function(){ toggleDrawer(true); });
+document.getElementById('btn-close-drawer').addEventListener('click', function(){ toggleDrawer(false); });
+overlayEl.addEventListener('click', function(){ toggleDrawer(false); });
+
+document.getElementById('btn-logout').addEventListener('click', function () {
+  toggleDrawer(false);
+  localStorage.removeItem('ra_user');
+  localStorage.removeItem('ra_key');
+  document.getElementById('screen-dashboard').classList.remove('active');
+  document.getElementById('screen-login').classList.add('active');
+});
+
+/* 4. INTERCONEXIÓN API RETROACHIEVEMENTS (CARGA COMPLETA RECIENTES/COMPLETADOS) */
+function apiUrl(endpoint, params) {
+  var base = 'https://retroachievements.org/API/' + endpoint + '?z=' + encodeURIComponent(userGlobal) + '&y=' + encodeURIComponent(apiKeyGlobal);
+  for (var k in params) base += '&' + k + '=' + encodeURIComponent(params[k]);
+  return base;
+}
+
+function normalizarJuego(j) {
+  var possible = Number(j.MaxPossible || j.NumPossibleAchievements || j.AchievementsTotal || 0);
+  var earned = Number(j.NumAwarded || j.NumAchieved || j.NumAwardedHardcore || j.NumAwardedHC || 0);
+  return {
+    GameID: j.GameID || j.ID,
+    Title: j.Title || 'Sin título',
+    ConsoleID: j.ConsoleID,
+    ConsoleName: j.ConsoleName || '',
+    ImageIcon: j.ImageIcon || '',
+    LastPlayed: j.LastPlayed || '',
+    possible: possible,
+    earned: earned
+  };
+}
+
+async function cargarHistorialCompleto() {
+  var mapa = {};
+
+  function fusionar(j) {
+    var n = normalizarJuego(j);
+    if (!n.GameID) return;
+    var prev = mapa[n.GameID];
+    if (!prev) { mapa[n.GameID] = n; return; }
+    prev.possible = Math.max(prev.possible, n.possible);
+    prev.earned = Math.max(prev.earned, n.earned);
+    if (!prev.ConsoleName && n.ConsoleName) prev.ConsoleName = n.ConsoleName;
+    if (!prev.ImageIcon && n.ImageIcon) prev.ImageIcon = n.ImageIcon;
+    if (!prev.LastPlayed && n.LastPlayed) prev.LastPlayed = n.LastPlayed;
+  }
+
+  try {
+    try {
+      var resC = await fetch(apiUrl('API_GetUserCompletedGames.php', { u: userGlobal }));
+      if (resC.ok) {
+        var dataC = await resC.json();
+        if (Array.isArray(dataC)) dataC.forEach(fusionar);
+      }
+    } catch (e) { console.log('completedGames error', e); }
+
+    var offset = 0, count = 500, guard = 0;
+    while (guard < 60) {
+      guard++;
+      var res = await fetch(apiUrl('API_GetUserRecentlyPlayedGames.php', { u: userGlobal, count: count, o: offset }));
+      if (!res.ok) break;
+      var data = await res.json();
+      if (!Array.isArray(data) || data.length === 0) break;
+      data.forEach(fusionar);
+      if (data.length < count) break;
+      offset += count;
+    }
+
+    try {
+      var resS = await fetch(apiUrl('API_GetUserSummary.php', { u: userGlobal, g: 0, a: 0 }));
+      if (resS.ok) userSummary = await resS.json();
+    } catch (e) { console.log('summary error', e); }
+
+    historialJuegos = Object.keys(mapa).map(function (k) { return mapa[k]; });
+    historialJuegos.sort(function (a, b) {
+      return (new Date(b.LastPlayed || 0)) - (new Date(a.LastPlayed || 0));
+    });
+
+    if (historialJuegos.length === 0) {
+      showLoader(false);
+      alert('No se encontraron juegos o las credenciales son incorrectas.');
+      return;
+    }
+
+    renderBrandBar();
+    selectBrand('ALL');
+    cargarDetallesJuego(historialJuegos[0].GameID, historialJuegos[0].ConsoleName);
+    showLoader(false);
+  } catch (err) {
+    showLoader(false);
+    console.error(err);
+    alert('Error al conectar con la API de RetroAchievements.');
+  }
+}
+
+/* 5. FILTROS Y RENDERS POR NIVELES (MARCAS, CONSOLAS, HISTORIAL JUEGOS) */
+function marcasPresentes() {
+  var set = {};
+  historialJuegos.forEach(function (j) {
+    var info = getConsoleInfo(j.ConsoleName);
+    set[info.brand] = true;
+  });
+  return Object.keys(set);
+}
+
+function renderBrandBar() {
+  var bar = document.getElementById('brand-bar');
+  bar.innerHTML = '';
+  var brands = ['ALL'].concat(marcasPresentes().sort());
+
+  brands.forEach(function (brand) {
+    var chip = document.createElement('div');
+    chip.className = 'brand-chip' + (brand === currentBrand ? ' active' : '');
+    chip.dataset.brand = brand;
+    if (brand === 'ALL') {
+      chip.innerHTML = '<span class="brand-chip-text">TODAS</span>';
+    } else {
+      chip.innerHTML = brandLogo(brand);
+    }
+    chip.addEventListener('click', function () { selectBrand(brand); });
+    bar.appendChild(chip);
+  });
+}
+
+function selectBrand(brand) {
+  currentBrand = brand;
+  currentConsoleKey = null;
+  navLevel = 1;
+  document.querySelectorAll('.brand-chip').forEach(function (c) {
+    c.classList.toggle('active', c.dataset.brand === brand);
+  });
+  if (brand === 'FAV') { renderFavoritesLevel(); }
+  else { renderConsoleLevel(); }
+}
+
+function renderConsoleLevel() {
+    var titleEl = document.getElementById('history-title');
+    var cont = document.getElementById('history-content');
+    titleEl.innerHTML = '&#128190; CONSOLAS' + (currentBrand !== 'ALL' ? ' · ' + BRAND_META[currentBrand].label.toUpperCase() : '');
+
+    var groups = {};
+    historialJuegos.forEach(function (j) {
+        var info = getConsoleInfo(j.ConsoleName);
+        if (currentBrand !== 'ALL' && info.brand !== currentBrand) return;
+        if (!groups[info.key]) groups[info.key] = { info: info, count: 0 };
+        groups[info.key].count++;
+    });
+
+    var keys = Object.keys(groups);
+    if (keys.length === 0) {
+        cont.innerHTML = '<p class="empty-note">No hay consolas registradas para esta marca.</p>';
+        return;
+    }
+
+    var html = '<div class="console-grid">';
+    
+    keys.sort(function (a, b) { return groups[b].count - groups[a].count; }).forEach(function (k) {
+        var g = groups[k];
+        
+        var imagenConsola = g.info.file 
+            ? '<img src="' + g.info.file + '" alt="' + g.info.label + '" style="max-height: 34px; max-width: 100%; object-fit: contain;">'
+            : wordmark(g.info.label, g.info.color);
+
+        html += '<div class="console-tile" data-key="' + k + '" style="--tile-color:' + g.info.color + '">' +
+                    imagenConsola +
+                    '<span class="count">' + g.count + ' juego' + (g.count !== 1 ? 's' : '') + '</span>' +
+                '</div>';
+    });
+
+    html += '</div>';
+    cont.innerHTML = html;
+
+    cont.querySelectorAll('.console-tile').forEach(function (tile) {
+        tile.addEventListener('click', function () { selectConsole(tile.dataset.key); });
+    });
+}
+
+function selectConsole(key) {
+  currentConsoleKey = key;
+  navLevel = 2;
+  var cont = document.getElementById('history-content');
+  var titleEl = document.getElementById('history-title');
+
+  var juegos = historialJuegos.filter(function (j) {
+    return getConsoleInfo(j.ConsoleName).key === key;
+  });
+  var label = juegos.length ? getConsoleInfo(juegos[0].ConsoleName).label : key;
+  titleEl.innerHTML = '&#127918; ' + esc(label.toUpperCase());
+
+  var html = '<button class="nav-back" id="btn-nav-back">&#8592; VOLVER A CONSOLAS</button>';
+  html += buildGamesListHTML(juegos);
+  cont.innerHTML = html;
+
+  document.getElementById('btn-nav-back').addEventListener('click', renderConsoleLevel);
+  attachGameItemHandlers(cont);
+}
+
+function renderFavoritesLevel() {
+  var cont = document.getElementById('history-content');
+  document.getElementById('history-title').innerHTML = '&#10084; JUEGOS FAVORITOS';
+  var juegos = historialJuegos.filter(function (j) { return favoritos.has(String(j.GameID)); });
+  if (juegos.length === 0) {
+    cont.innerHTML = '<p class="empty-note">Aún no tienes juegos favoritos.<br>Pulsa el corazón &#10084; en la carátula de un juego para agregarlo.</p>';
+    return;
+  }
+  cont.innerHTML = buildGamesListHTML(juegos);
+  attachGameItemHandlers(cont);
+}
+
+function buildGamesListHTML(juegos) {
+  var html = '<div class="games-list">';
+  juegos.forEach(function (j) {
+    var imgUrl = j.ImageIcon ? 'https://media.retroachievements.org' + j.ImageIcon : '';
+    var pct = j.possible > 0 ? Math.round((j.earned / j.possible) * 100) : 0;
+    var fav = favoritos.has(String(j.GameID));
+    html += '<div class="game-item' + (String(j.GameID) === String(juegoActualID) ? ' active' : '') + '" data-id="' + j.GameID + '" data-console="' + esc(j.ConsoleName) + '">' +
+              '<img src="' + imgUrl + '" alt="" loading="lazy">' +
+              '<div class="game-item-title">' + esc(j.Title) + '</div>' +
+              (j.possible > 0 ? '<span class="game-item-pct">' + pct + '%</span>' : '') +
+              (fav ? '<span class="game-item-fav">&#10084;</span>' : '') +
+            '</div>';
+  });
+  html += '</div>';
+  return html;
+}
+
+function attachGameItemHandlers(scope) {
+  scope.querySelectorAll('.game-item').forEach(function (item) {
+    item.addEventListener('click', function () {
+      scope.querySelectorAll('.game-item').forEach(function (i) { i.classList.remove('active'); });
+      item.classList.add('active');
+      cargarDetallesJuego(item.dataset.id, item.dataset.console);
+    });
+  });
+}
+
+document.getElementById('btn-fav-filter').addEventListener('click', function () {
+  toggleDrawer(false);
+  selectBrand('FAV');
+  document.querySelectorAll('.brand-chip').forEach(function (c) {
+    c.classList.toggle('active', c.dataset.brand === 'FAV');
+  });
+});
+
+/* 6. SINOPSIS & TRADUCCIONES DE WIKIPEDIA / GOOGLE TRANSLATE SINGLE API */
+function limpiarHTMLWiki(html) {
+  var div = document.createElement('div');
+  div.innerHTML = html;
+  div.querySelectorAll('table, .reference, .mw-editsection, sup, style, .hatnote, .navbox, .thumb, figure, .noprint').forEach(function (el) { el.remove(); });
+  var text = div.textContent || '';
+  text = text.replace(/\[\d+\]/g, '')
+             .replace(/\[cita requerida\]/gi, '')
+             .replace(/\[editar\]/gi, '')
+             .replace(/wikipedia/gi, '')
+             .replace(/\s{2,}/g, ' ')
+             .trim();
+  return text;
+}
+
+async function obtenerSeccionHistoria(lang, titulo) {
+  var api = 'https://' + lang + '.wikipedia.org/w/api.php';
+  var srQ = titulo + (lang === 'es' ? ' videojuego' : ' video game');
+  var sres = await fetch(api + '?action=query&list=search&srsearch=' + encodeURIComponent(srQ) + '&format=json&origin=*&srlimit=1');
+  var sdata = await sres.json();
+  if (!sdata.query || !sdata.query.search || !sdata.query.search.length) return null;
+  var pageTitle = sdata.query.search[0].title;
+
+  var secRes = await fetch(api + '?action=parse&page=' + encodeURIComponent(pageTitle) + '&prop=sections&format=json&origin=*');
+  var secData = await secRes.json();
+  if (!secData.parse || !secData.parse.sections) return null;
+
+  var prefer = lang === 'es'
+    ? [/argumento/i, /trama/i, /historia/i, /sinopsis/i, /jugabilidad/i]
+    : [/plot/i, /story/i, /synopsis/i, /premise/i, /setting/i, /gameplay/i];
+
+  var chosen = null;
+  for (var p = 0; p < prefer.length && !chosen; p++) {
+    for (var s = 0; s < secData.parse.sections.length; s++) {
+      if (prefer[p].test(secData.parse.sections[s].line)) { chosen = secData.parse.sections[s]; break; }
+    }
+  }
+  if (!chosen) return null;
+
+  var txtRes = await fetch(api + '?action=parse&page=' + encodeURIComponent(pageTitle) + '&section=' + chosen.index + '&prop=text&format=json&origin=*');
+  var txtData = await txtRes.json();
+  if (!txtData.parse || !txtData.parse.text) return null;
+  var limpio = limpiarHTMLWiki(txtData.parse.text['*']);
+  return limpio && limpio.length > 40 ? limpio : null;
+}
+
+async function buscarHistoria(tituloJuego) {
+  var descBox = document.getElementById('game-description-text');
+  descBox.innerText = 'Buscando la historia del juego...';
+  var titulo = tituloJuego.replace(/\(.*?\)/g, '').replace(/~.*?~/g, '').replace(/\|.*$/,'').trim();
+
+  try {
+    var es = await obtenerSeccionHistoria('es', titulo);
+    if (es) { descBox.innerText = es; return; }
+  } catch (e) { console.log('wiki es', e); }
+
+  try {
+    var en = await obtenerSeccionHistoria('en', titulo);
+    if (en) {
+      descBox.innerText = 'Traduciendo historia...';
+      var tr = await traducirTexto(en.substring(0, 4500), 'en', 'es');
+      descBox.innerText = tr || en;
+      return;
+    }
+  } catch (e) { console.log('wiki en', e); }
+
+  try {
+    var r = await fetch('https://es.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(titulo));
+    if (r.ok) {
+      var d = await r.json();
+      if (d.extract) { descBox.innerText = d.extract.replace(/wikipedia/gi, '').trim(); return; }
+    }
+  } catch (e) {}
+
+  descBox.innerText = 'No se encontró la historia de este título.';
+}
+
+async function traducirTexto(texto, sl, tl) {
+  try {
+    var res = await fetch('https://translate.googleapis.com/translate_a/single?client=gtx&sl=' + sl + '&tl=' + tl + '&dt=t&q=' + encodeURIComponent(texto));
+    var data = await res.json();
+    if (data && data[0]) return data[0].map(function (i) { return i[0]; }).join('');
+  } catch (e) {}
+  return null;
+}
+
+/* 7. MANIPULACIÓN DETALLES JUEGO & GESTOR LOCAL DE FAVORITOS (LOCALSTORAGE) */
+async function cargarDetallesJuego(gameId, consoleHint) {
+  juegoActualID = gameId;
+  showLoader(true, 'CARGANDO DETALLES Y LOGROS...');
+  try {
+    var res = await fetch(apiUrl('API_GetGameInfoAndUserProgress.php', { u: userGlobal, g: gameId }));
+    var data = await res.json();
+    if (!data || !data.Title) { showLoader(false); return; }
+
+    var consoleName = data.ConsoleName || consoleHint || 'CONSOLA';
+    juegoActualConsola = consoleName;
+
+    document.getElementById('game-title').innerText = data.Title;
+    document.getElementById('game-console-badge').innerText = consoleName.toUpperCase();
+    actualizarLogoVectorialConsola(consoleName);
+
+    document.getElementById('game-released').innerText = 'AÑO: ' + (data.Released || 'N/A');
+    document.getElementById('game-genre').innerText = 'GÉNERO: ' + (data.Genre || 'N/A');
+    document.getElementById('game-developer').innerText = data.Developer || 'Desconocido';
+    document.getElementById('game-publisher').innerText = data.Publisher || 'Desconocido';
+    document.getElementById('game-language').innerText = 'IDIOMA: ' + (data.Language || 'Español/Inglés');
+    document.getElementById('game-regional').innerText = 'REGIONAL: ' + (data.Regional || 'Global');
+    document.getElementById('game-misc').innerText = 'MISC: ' + (data.Misc || 'Oficial');
+
+    buscarHistoria(data.Title);
+    actualizarFavHeart();
+
+    var boxArtImg = document.getElementById('game-boxart');
+    if (data.ImageBoxArt) boxArtImg.src = 'https://media.retroachievements.org' + data.ImageBoxArt;
+    else if (data.ImageIcon) boxArtImg.src = 'https://media.retroachievements.org' + data.ImageIcon;
+    else boxArtImg.src = '';
+
+    var logrosMap = data.Achievements ? Object.values(data.Achievements) : [];
+    todosLosLogros = logrosMap.map(function (l) {
+      return { ...l, isUnlocked: !!l.DateEarned, translated: false };
+    });
+
+    var totalDesbloqueados = todosLosLogros.filter(function (l) { return l.isUnlocked; }).length;
+    var porcentaje = todosLosLogros.length > 0 ? Math.round((totalDesbloqueados / todosLosLogros.length) * 100) : 0;
+    document.getElementById('progress-text').innerText = totalDesbloqueados + ' / ' + todosLosLogros.length + ' LOGROS (' + porcentaje + '%)';
+    document.getElementById('progress-bar-fill').style.width = porcentaje + '%';
+
+    renderizarLogros(todosLosLogros);
+    document.getElementById('search-input').value = '';
+    showLoader(false);
+  } catch (err) {
+    console.error(err);
+    showLoader(false);
+  }
+}
+
+function actualizarFavHeart() {
+  var heart = document.getElementById('fav-heart');
+  var isFav = favoritos.has(String(juegoActualID));
+  heart.classList.toggle('active', isFav);
+}
+
+document.getElementById('fav-heart').addEventListener('click', function (e) {
+  e.stopPropagation();
+  if (!juegoActualID) return;
+  var id = String(juegoActualID);
+  if (favoritos.has(id)) favoritos.delete(id); else favoritos.add(id);
+  localStorage.setItem('ra_favoritos', JSON.stringify([...favoritos]));
+  actualizarFavHeart();
+  if (currentBrand === 'FAV') renderFavoritesLevel();
+  else if (navLevel === 2 && currentConsoleKey) selectConsole(currentConsoleKey);
+});
+
+/* 8. MOTOR ÁLBUM LOGROS (DETECCIÓN DE MÁSCARAS, FLIP 3D Y TRADUCTOR) */
+function extraerProgresoNumerico(logro) {
+  var regex = /(\d+)\s*\/\s*(\d+)/;
+  var match = (logro.Description || '').match(regex);
+  if (match) return { actual: parseInt(match[1]), total: parseInt(match[2]) };
+  return null;
+}
+
+function renderizarLogros(lista) {
+  var grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  if (!lista.length) {
+    grid.innerHTML = '<p class="empty-note" style="grid-column:1/-1">No hay logros que coincidan.</p>';
+    return;
+  }
+
+  lista.forEach(function (logro) {
+    var wrapper = document.createElement('div');
+    wrapper.className = 'card-3d-wrapper ' + (logro.isUnlocked ? 'unlocked' : 'locked');
+
+    var badgeCode = logro.BadgeName;
+    var badgeUrl = logro.isUnlocked
+      ? 'https://media.retroachievements.org/Badge/' + badgeCode + '.png'
+      : 'https://media.retroachievements.org/Badge/' + badgeCode + '_lock.png';
+
+    var progreso = extraerProgresoNumerico(logro);
+    var progresoHTML = '';
+    if (progreso && progreso.total > 0) {
+      var pct = Math.min(100, Math.round((progreso.actual / progreso.total) * 100));
+      progresoHTML = '<div class="achievement-num-progress"><span>PROGRESO: ' + progreso.actual + ' / ' + progreso.total + '</span><div class="num-bar-bg"><div class="num-bar-fill" style="width:' + pct + '%"></div></div></div>';
+    }
+
+    var backHTML = '<div class="card-face card-back">' +
+                     '<span class="points-badge">&#11088; ' + (logro.Points||0) + ' PTS</span>' +
+                     '<h4 class="card-title">' + esc(logro.Title) + '</h4>' +
+                     '<p class="card-desc">' + esc(logro.Description || '') + '</p>' +
+                     progresoHTML +
+                   '</div>';
+
+    wrapper.innerHTML =
+      '<div class="card-3d-inner">' +
+        '<div class="card-face card-front"><img src="' + badgeUrl + '" alt="Logro" crossorigin="anonymous"></div>' +
+        backHTML +
+      '</div>';
+
+    wrapper.addEventListener('click', function () {
+      wrapper.classList.toggle('flipped');
+      if (wrapper.classList.contains('flipped') && !logro.translated) {
+        var titleEl = wrapper.querySelector('.card-title');
+        var descEl = wrapper.querySelector('.card-desc');
+        traducirLogroCompleto(logro.Title, logro.Description, titleEl, descEl);
+        logro.translated = true;
+      }
+    });
+
+    grid.appendChild(wrapper);
+  });
+}
+
+function filtrarLogrosActuales() {
+  var q = document.getElementById('search-input').value.toLowerCase();
+  if (!q) return todosLosLogros;
+  return todosLosLogros.filter(function (l) {
+    return (l.Title || '').toLowerCase().includes(q) || (l.Description || '').toLowerCase().includes(q);
+  });
+}
+
+async function traducirLogroCompleto(titulo, desc, titleEl, descEl) {
+  if (titleEl) titleEl.innerText = '🌐 Traduciendo...';
+  if (descEl) descEl.innerText = '🌐 Traduciendo...';
+  try {
+    var combinado = titulo + ' ||| ' + desc;
+    var t = await traducirTexto(combinado, 'auto', 'es');
+    if (t) {
+      var partes = t.split('|||');
+      if (titleEl) titleEl.innerText = partes[0] ? partes[0].trim() : titulo;
+      if (descEl) descEl.innerText = partes[1] ? partes[1].trim() : desc;
+      return;
+    }
+  } catch (e) {}
+  if (titleEl) titleEl.innerText = titulo;
+  if (descEl) descEl.innerText = desc;
+}
+
+document.getElementById('search-input').addEventListener('input', function () {
+  renderizarLogros(filtrarLogrosActuales());
+});
+
+/* 9. CÁLCULO ESTADÍSTICO GLOBAL & RENDERIZADO MOSAICO JUEGOS */
+document.getElementById('btn-stats').addEventListener('click', function () {
+  toggleDrawer(false);
+  renderStats();
+  document.getElementById('screen-stats').classList.add('active');
+});
+
+document.getElementById('btn-close-stats').addEventListener('click', function () {
+  document.getElementById('screen-stats').classList.remove('active');
+});
+
+function renderStats() {
+  var total = historialJuegos.length;
+  var completados = 0, enProceso = 0, sumEarned = 0, sumPossible = 0;
+
+  historialJuegos.forEach(function (j) {
+    sumEarned += j.earned;
+    sumPossible += j.possible;
+    if (j.possible > 0 && j.earned >= j.possible) completados++;
+    else if (j.earned > 0) enProceso++;
+  });
+
+  var pctLogros = sumPossible > 0 ? Math.round((sumEarned / sumPossible) * 100) : 0;
+
+  var puntos = userSummary ? Number(userSummary.TotalPoints || 0) : 0;
+  var truePuntos = userSummary ? Number(userSummary.TotalTruePoints || 0) : 0;
+  var siguienteMeta = Math.max(1000, (Math.floor(puntos / 5000) + 1) * 5000);
+  var pctPuntos = Math.min(100, Math.round((puntos / siguienteMeta) * 100));
+
+  document.getElementById('stats-cards').innerHTML =
+    tarjeta(total, 'Juegos jugados', '') +
+    tarjeta(completados, 'Completados 100%', 'green') +
+    tarjeta(enProceso, 'En proceso', 'pink') +
+    tarjeta(puntos.toLocaleString('es'), 'Puntos totales', '');
+
+  document.getElementById('stats-bars').innerHTML =
+    barra('Logros obtenidos', sumEarned + ' / ' + sumPossible + ' (' + pctLogros + '%)', pctLogros, 'var(--accent-green)') +
+    barra('Puntos hacia siguiente meta (' + siguienteMeta.toLocaleString('es') + ')', puntos.toLocaleString('es') + ' pts · ' + truePuntos.toLocaleString('es') + ' true pts', pctPuntos, 'var(--primary-neon)');
+
+  var mos = document.getElementById('stats-mosaic');
+  mos.innerHTML = '';
+  historialJuegos.forEach(function (j) {
+    var pct = j.possible > 0 ? Math.round((j.earned / j.possible) * 100) : 0;
+    var color = pct === 100 ? 'var(--accent-green)' : pct > 0 ? 'var(--primary-neon)' : '#33405f';
+    var img = j.ImageIcon ? 'https://media.retroachievements.org' + j.ImageIcon : '';
+    var item = document.createElement('div');
+    item.className = 'mosaic-item';
+    item.innerHTML =
+      '<img src="' + img + '" alt="" loading="lazy">' +
+      '<div class="mosaic-meta">' +
+        '<div class="mosaic-title" title="' + esc(j.Title) + '">' + esc(j.Title) + '</div>' +
+        '<div class="mosaic-bar"><div class="mosaic-fill" style="width:' + pct + '%;background:' + color + '"></div></div>' +
+        '<div class="mosaic-pct">' + j.earned + '/' + j.possible + ' · ' + pct + '%</div>' +
+      '</div>';
+    mos.appendChild(item);
+  });
+}
+
+function tarjeta(num, lbl, cls) {
+  return '<div class="stat-card ' + (cls||'') + '"><div class="num">' + num + '</div><div class="lbl">' + lbl + '</div></div>';
+}
+function barra(label, valor, pct, color) {
+  return '<div class="stat-bar-row"><div class="stat-bar-label"><span>' + label + '</span><span>' + valor + '</span></div>' +
+         '<div class="big-bar"><div class="big-bar-fill" style="width:' + pct + '%;background:' + color + ';box-shadow:0 0 12px ' + color + '"></div></div></div>';
+}
+</script>
+</body>
+</html>
